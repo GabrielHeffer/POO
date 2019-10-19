@@ -27,6 +27,7 @@ public class PNIndetJog extends JPanel implements ActionListener {
         this.add(jog2Label);
         this.add(TextFieldjog2);
         this.add(ok);
+        
     }
 
     public void actionPerformed(ActionEvent e) {
