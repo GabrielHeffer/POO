@@ -1,14 +1,10 @@
 package gui;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class PNjogo extends JFrame implements ActionListener {
-
+public class PNjogo extends JFrame  {
+    Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
     public PNjogo(){
-        Toolkit tk=Toolkit.getDefaultToolkit();
-        Dimension screenSize=tk.getScreenSize();
         int sl=screenSize.width;
         int sa=screenSize.height;
         int x=sl/2-400/2;
@@ -16,19 +12,20 @@ public class PNjogo extends JFrame implements ActionListener {
         setBounds(x,y,400,300);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         IdJogadoresPanel();
+        setVisible(true);
 
     }
     private void IdJogadoresPanel (){
+        setTitle("Jogadores");
         getContentPane().add(new PNIndetJog());
     }
 
-    public static void main(String args[]){
-        PNjogo x = new PNjogo();
-        x.setTitle("Jogadores");
-        x.setVisible(true);
+    public void MostraTabuleiro () {
+        int sl=screenSize.width;
+        int sa=screenSize.height;
+        setTitle("Posicionamento as Peças");
+        setBounds(0,0,sl,sa);
+        getContentPane().add(new TabuleiroPos());
     }
 
-    public void actionPerformed(ActionEvent e) {
-
-    }
 }

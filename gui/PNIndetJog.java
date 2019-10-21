@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import controler.ctrl;
+
 public class PNIndetJog extends JPanel implements ActionListener {
     JLabel jog1Label = new JLabel("Jogador 1 : ");
     JLabel jog2Label = new JLabel("Jogador 2 : ");
@@ -33,8 +35,9 @@ public class PNIndetJog extends JPanel implements ActionListener {
         String nome1,nome2;
         nome1 = TextFieldjog1.getText();
         nome2 = TextFieldjog2.getText();
-        if(nome1.equals("") && nome2.equals("") && nome1.equals(nome2) == false)
-            //Chama função da interface com as regras
+        if(ctrl.getCtrl().NomesJogadores(nome1,nome2)) {
+            this.setVisible(false);
+        }
         return;
     }
 }
