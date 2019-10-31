@@ -29,7 +29,7 @@ public class TabuleiroPos extends JPanel implements MouseListener {
         Dimension screenSize=tk.getScreenSize();
         sl=screenSize.width;
         sa=screenSize.height;
-        leftX=sl/2 - LARG_DEFAULT/2;
+        leftX=sl/2 + LARG_DEFAULT/2;
         topY= sa/2 - ALT_DEFAULT;
         setLayout(null);
         TabPronto.setBounds(sl/2-110,sa-200,220,40);
@@ -63,11 +63,11 @@ public class TabuleiroPos extends JPanel implements MouseListener {
         super.paintComponent(g);
         int[][] Tab = ctrl.getCtrl().getTabuleiro(JogadorVez);
         String nomeJogador = ctrl.getCtrl().getNomeJogador(JogadorVez);
+        leftX=sl/2 + LARG_DEFAULT/2;
         DesenhaTabuleiro(Tab,g);
         TabPronto.setText(String.format("Tabuleiro %s prronto",nomeJogador));
         this.add(TabPronto);
         TabPronto.setVisible(true);
-
 
     }
 
