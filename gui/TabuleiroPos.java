@@ -20,15 +20,17 @@ public class TabuleiroPos extends JPanel implements MouseListener {
     public final int ALT_DEFAULT=300;
     int leftX,topY;
     int JogadorVez = 1;
+    private int sl;
+    private int sa;
     JButton TabPronto  = new JButton();
 
     public TabuleiroPos(){
         Toolkit tk=Toolkit.getDefaultToolkit();
         Dimension screenSize=tk.getScreenSize();
-        int sl=screenSize.width;
-        int sa=screenSize.height;
-        leftX=sl - (LARG_DEFAULT + 100);
-        topY= 100;
+        sl=screenSize.width;
+        sa=screenSize.height;
+        leftX=sl/2 - LARG_DEFAULT/2;
+        topY= sa/2 - ALT_DEFAULT;
         setLayout(null);
         TabPronto.setBounds(sl/2-110,sa-200,220,40);
     }
@@ -52,7 +54,7 @@ public class TabuleiroPos extends JPanel implements MouseListener {
             }
 
             leftX+=30.0;
-            topY=100;
+            topY= sa/2 - ALT_DEFAULT;
 
         }
     }
