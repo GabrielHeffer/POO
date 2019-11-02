@@ -22,6 +22,7 @@ public class TabuleiroPos extends JPanel implements MouseListener {
     int JogadorVez = 1;
     private int sl;
     private int sa;
+    
     JButton TabPronto  = new JButton();
 
     public TabuleiroPos(){
@@ -33,6 +34,7 @@ public class TabuleiroPos extends JPanel implements MouseListener {
         topY= sa/2 - ALT_DEFAULT;
         setLayout(null);
         TabPronto.setBounds(sl/2-110,sa-200,220,40);
+        addMouseListener(this);
     }
 
     private void DesenhaTabuleiro(int[][] Tabuleiro,Graphics g){
@@ -40,11 +42,19 @@ public class TabuleiroPos extends JPanel implements MouseListener {
         Graphics2D g2d=(Graphics2D) g;
         double larg=30.0;
         double alt=30.0;
+        
+        
+       
         for (int i=0;i<Tabuleiro.length;i++)
         {
-
-            for (int j=1;j<Tabuleiro[i].length;j++)
+        	//setBounds(leftX,topY,larg,alt);
+        	String number = (i>= 9) ? Integer.toString(i+1): " " + Integer.toString(i+1);
+            g2d.drawString(Character.toString((char) (65+i)), 55,65 + 30*(i+1));
+            g2d.drawString(number, 50 + 30*(i+1), 65);
+            for (int j=0;j<Tabuleiro[i].length;j++)
             {
+            	
+
                 rt=new Rectangle2D.Double(leftX,topY,larg,alt);
                 if(Tabuleiro[i][j] == 0)
                     g2d.draw(rt);
@@ -55,8 +65,14 @@ public class TabuleiroPos extends JPanel implements MouseListener {
 
             leftX+=30.0;
             topY= sa/2 - ALT_DEFAULT;
+            
+            //colocandos os labels
+            
+            
+
 
         }
+
     }
 
     public void paintComponent(Graphics g) {
@@ -73,6 +89,24 @@ public class TabuleiroPos extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+    
+    	
+    	int linha, coluna ;
+        int x = e.getX() ;
+        int y = e.getY() ;
+        
+        leftX=sl/2 + LARG_DEFAULT/2;
+        topY= sa/2 - ALT_DEFAULT;
+
+        linha = (x-leftX)/30+1;
+        coluna = (y-topY)/30+1;
+
+        System.out.println( linha ) ;
+        System.out.println( coluna ) ;
+
+        repaint() ;
+		
+		
 
     }
 
