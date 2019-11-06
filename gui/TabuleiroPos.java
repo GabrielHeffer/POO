@@ -2,14 +2,13 @@ package gui;
 
 import controler.ctrl;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import gui.select;
+import gui.Peca;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
@@ -22,91 +21,63 @@ public class TabuleiroPos extends JPanel implements MouseListener {
     int JogadorVez = 1;
     private int sl;
     private int sa;
-    
+    private Peca[] pecas;
     JButton TabPronto  = new JButton();
 
-    public TabuleiroPos(){
+    {
         Toolkit tk=Toolkit.getDefaultToolkit();
         Dimension screenSize=tk.getScreenSize();
         sl=screenSize.width;
         sa=screenSize.height;
         leftX=sl/2 + LARG_DEFAULT/2;
         topY= sa/2 - ALT_DEFAULT;
+        pecas = new Peca[]{new Peca(30,topY,"H"),new Peca(150,topY,"H"),new Peca(270,topY,"H"),new Peca(390,topY,"H"),new Peca(510,topY,"H"),
+                new Peca(30,topY+120,"S"),new Peca(90,topY+120,"S"),new Peca(150,topY+120,"S"),new Peca(210,topY+120,"S"),
+                new Peca(30,topY+210,"D"),new Peca(120,topY+210,"D"),new Peca(210,topY+210,"D"),
+                new Peca(30,topY+300,"Cr"),new Peca(180,topY+300,"Cr"),
+                new Peca(30,topY+390,"Co")};
+    }
+
+
+    public TabuleiroPos(){
+        for(Peca peca:pecas)
+            this.add(peca);
         setLayout(null);
         TabPronto.setBounds(sl/2-110,sa-200,220,40);
         addMouseListener(this);
     }
 
-    private void DesenhaTabuleiro(int[][] Tabuleiro,Graphics g){
-        Rectangle2D rt;
-        Graphics2D g2d=(Graphics2D) g;
-        double larg=30.0;
-        double alt=30.0;
-        
-        
-       
-        for (int i=0;i<Tabuleiro.length;i++)
-        {
-        	//setBounds(leftX,topY,larg,alt);
-        	String number = (i>= 9) ? Integer.toString(i+1): " " + Integer.toString(i+1);
-            g2d.drawString(Character.toString((char) (65+i)), 55,65 + 30*(i+1));
-            g2d.drawString(number, 50 + 30*(i+1), 65);
-            for (int j=0;j<Tabuleiro[i].length;j++)
-            {
-            	
-
-                rt=new Rectangle2D.Double(leftX,topY,larg,alt);
-                if(Tabuleiro[i][j] == 0)
-                    g2d.draw(rt);
-                else
-                    g2d.draw(rt);
-                topY+=30;
-            }
-
-            leftX+=30.0;
-            topY= sa/2 - ALT_DEFAULT;
-            
-            //colocandos os labels
-            
-            
-
-
-        }
-
-    }
-
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int[][] Tab = ctrl.getCtrl().getTabuleiro(JogadorVez);
+        int[][] tabuleiro = ctrl.getCtrl().getTabuleiro(JogadorVez);
         String nomeJogador = ctrl.getCtrl().getNomeJogador(JogadorVez);
-        leftX=sl/2 + LARG_DEFAULT/2;
-        DesenhaTabuleiro(Tab,g);
         TabPronto.setText(String.format("Tabuleiro %s prronto",nomeJogador));
         this.add(TabPronto);
         TabPronto.setVisible(true);
-
+        DesenhaTabuleiro.Desenha(tabuleiro,g,leftX,topY);
+        for(Peca peca:pecas){
+            peca.addMouseListener(peca);
+            peca.addMouseListener(this);
+            peca.CriaPeca(g);
+        }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-    
-    	
-    	int linha, coluna ;
+        int linha, coluna ;
         int x = e.getX() ;
         int y = e.getY() ;
-        
+
         leftX=sl/2 + LARG_DEFAULT/2;
         topY= sa/2 - ALT_DEFAULT;
 
-        linha = (x-leftX)/30+1;
-        coluna = (y-topY)/30+1;
+        coluna = (x-leftX)/30+1;
+        linha = (y-topY)/30+1;
 
         System.out.println( linha ) ;
         System.out.println( coluna ) ;
 
         repaint() ;
-		
-		
 
     }
 
