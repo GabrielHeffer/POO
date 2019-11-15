@@ -36,16 +36,17 @@ public class Peca extends JPanel implements MouseListener {
         if(select.peca_selecionada == this)
             g2d.setPaint(Color.gray);
         else if(peca.equals("H"))
-            g2d.setPaint(Color.green);
+        	g2d.setColor(new Color(130, 169, 230));
         else if(peca.equals("S"))
-            g2d.setPaint(Color.cyan);
+        	g2d.setColor(new Color(169, 220, 160));
         else if(peca.equals("D"))
-            g2d.setPaint(Color.orange);
+        	g2d.setColor(new Color(255, 230, 101));
         else if(peca.equals("Cr"))
-            g2d.setPaint(Color.blue);
+        	g2d.setColor(new Color(232, 128, 115));
         else if(peca.equals("Co"))
-            g2d.setPaint(Color.pink);
+        	g2d.setColor(new Color(186, 126, 235));
     }
+    
 
     private void DesenhaPeca(Graphics2D g2d,Rectangle2D[] rects){
         for(Rectangle2D rect: rects){
@@ -94,6 +95,8 @@ public class Peca extends JPanel implements MouseListener {
         }
         this.DesenhaPeca(g2d,rect);
     }
+    
+    
 
     @Override
     public void mouseClicked(MouseEvent e) {

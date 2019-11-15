@@ -22,6 +22,10 @@ public class TabuleiroPos extends JPanel implements MouseListener {
     private int sl;
     private int sa;
     private Peca[] pecas;
+    
+    int[] pos = new int [2]; //pos na matriz tabuleiro
+    
+    
     JButton TabPronto  = new JButton();
 
     {
@@ -45,13 +49,16 @@ public class TabuleiroPos extends JPanel implements MouseListener {
         setLayout(null);
         TabPronto.setBounds(sl/2-110,sa-200,220,40);
         addMouseListener(this);
+        mudarFaseAtaque();
     }
+    
+
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         int[][] tabuleiro = ctrl.getCtrl().getTabuleiro(JogadorVez);
         String nomeJogador = ctrl.getCtrl().getNomeJogador(JogadorVez);
-        TabPronto.setText(String.format("Tabuleiro %s prronto",nomeJogador));
+        TabPronto.setText(String.format("Tabuleiro de %s pronto",nomeJogador));
         this.add(TabPronto);
         TabPronto.setVisible(true);
         DesenhaTabuleiro.Desenha(tabuleiro,g,leftX,topY);
@@ -60,24 +67,40 @@ public class TabuleiroPos extends JPanel implements MouseListener {
             peca.addMouseListener(this);
             peca.CriaPeca(g);
         }
+
     }
+    
+    public void mudarFaseAtaque() {
+    	TabPronto.addActionListener(new ActionListener(){
+    	    public void actionPerformed(ActionEvent event){
+
+    	    	System.out.println("B1");
+    	    	
+    	    	//COLOCAR COD PARA MUDANCA DE FASE
+    	    }
+    	});
+    }
+    
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        int linha, coluna ;
+
         int x = e.getX() ;
         int y = e.getY() ;
+        
 
         leftX=sl/2 + LARG_DEFAULT/2;
         topY= sa/2 - ALT_DEFAULT;
 
-        coluna = (x-leftX)/30+1;
-        linha = (y-topY)/30+1;
+        pos[0] = (x-leftX)/30+1; //coluna
+        pos[1] = (y-topY)/30+1; //linha
 
-        System.out.println( linha ) ;
-        System.out.println( coluna ) ;
-
+        System.out.println( pos[0] ) ;
+        System.out.println( pos[1] ) ;
+        
         repaint() ;
+        
+        return;
 
     }
 
