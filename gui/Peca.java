@@ -10,14 +10,16 @@ import java.awt.geom.Rectangle2D;
 import gui.select;
 
 public class Peca extends JPanel implements MouseListener {
-    String peca;
-    int leftX;
-    int topY;
+    private String peca;
+    private int Id;
+    private int leftX;
+    private int topY;
 
-    public Peca(int x, int y, String desPec){
+    public Peca(int x, int y, String desPec, int id){
         leftX = x;
         topY = y;
         peca = desPec;
+        Id = id;
         setLayout(null);
         setOpaque(false);
         if(desPec.equals("H"))
@@ -32,21 +34,25 @@ public class Peca extends JPanel implements MouseListener {
             setBounds(leftX,topY,150,30);
     }
 
+    public String getPeca(){ return peca; }
+
+    public int getId(){ return Id; }
+
     private void EscolheCor(Graphics2D g2d){
         if(select.peca_selecionada == this)
             g2d.setPaint(Color.gray);
         else if(peca.equals("H"))
-        	g2d.setColor(new Color(130, 169, 230));
+            g2d.setColor(new Color(130, 169, 230));
         else if(peca.equals("S"))
-        	g2d.setColor(new Color(169, 220, 160));
+            g2d.setColor(new Color(169, 220, 160));
         else if(peca.equals("D"))
-        	g2d.setColor(new Color(255, 230, 101));
+            g2d.setColor(new Color(255, 230, 101));
         else if(peca.equals("Cr"))
-        	g2d.setColor(new Color(232, 128, 115));
+            g2d.setColor(new Color(232, 128, 115));
         else if(peca.equals("Co"))
-        	g2d.setColor(new Color(186, 126, 235));
+            g2d.setColor(new Color(186, 126, 235));
     }
-    
+
 
     private void DesenhaPeca(Graphics2D g2d,Rectangle2D[] rects){
         for(Rectangle2D rect: rects){
@@ -95,8 +101,8 @@ public class Peca extends JPanel implements MouseListener {
         }
         this.DesenhaPeca(g2d,rect);
     }
-    
-    
+
+
 
     @Override
     public void mouseClicked(MouseEvent e) {

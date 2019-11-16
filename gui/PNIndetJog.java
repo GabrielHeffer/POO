@@ -4,8 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import controler.ctrl;
+import controler.Regras;
 
 public class PNIndetJog extends JPanel implements ActionListener {
     JLabel jog1Label = new JLabel("Jogador 1 : ");
@@ -35,8 +34,9 @@ public class PNIndetJog extends JPanel implements ActionListener {
         String nome1,nome2;
         nome1 = TextFieldjog1.getText();
         nome2 = TextFieldjog2.getText();
-        if(ctrl.getCtrl().NomesJogadores(nome1,nome2)) {
+        if(Regras.getCtrl().SetNomesJogadores(nome1,nome2)) {
             this.setVisible(false);
+            PNjogo.getPnjogo().MostraTabuleiro();
         }
         return;
     }

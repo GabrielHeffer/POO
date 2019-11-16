@@ -1,10 +1,18 @@
 package gui;
+import controler.Regras;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class PNjogo extends JFrame  {
     Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
-    public PNjogo(){
+    private static PNjogo ctrl_PNjogo;
+    public static PNjogo getPnjogo(){
+        if(ctrl_PNjogo == null)
+            ctrl_PNjogo = new PNjogo();
+        return ctrl_PNjogo;
+    }
+    private PNjogo(){
         int sl=screenSize.width;
         int sa=screenSize.height;
         int x=sl/2-400/2;
@@ -27,5 +35,11 @@ public class PNjogo extends JFrame  {
         setBounds(0,0,sl,sa);
         getContentPane().add(new TabuleiroPos());
     }
+
+    public static void main(String[] args){
+        Regras.getCtrl();
+        PNjogo.getPnjogo();
+    }
+
 
 }

@@ -25,14 +25,16 @@ public class DesenhaTabuleiro {
                 if (Tabuleiro[i][j] == 0)
                     g2d.draw(rt);
                 else {
-                    System.out.println("ola");
+                    g2d.setPaint(Color.gray);
+                    g2d.fill(rt);
+                    g2d.draw(rt);
                 }
                 //g2d.draw(rt);
-                Y += 30;
+                X += 30;
             }
 
-            X += 30.0;
-            Y = topY;
+            X = leftX;
+            Y += 30.0;
 
         }
 
