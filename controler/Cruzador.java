@@ -31,4 +31,6 @@ public class Cruzador extends Peca{
         if(atingido >= 4)
             valor = -1;
     }
+    
+    public int getValue () { return valor; }
 }

@@ -30,4 +30,6 @@ public class Couracado extends Peca {
         if(atingido >= 5)
             valor = -1;
     }
+    
+    public int getValue () { return valor; }
 }

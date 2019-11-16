@@ -14,12 +14,14 @@ public class Peca extends JPanel implements MouseListener {
     private int Id;
     private int leftX;
     private int topY;
+    private int value;
 
-    public Peca(int x, int y, String desPec, int id){
+    public Peca(int x, int y, String desPec, int id, int valor){
         leftX = x;
         topY = y;
         peca = desPec;
         Id = id;
+        value = valor;
         setLayout(null);
         setOpaque(false);
         if(desPec.equals("H"))
@@ -33,6 +35,8 @@ public class Peca extends JPanel implements MouseListener {
         else
             setBounds(leftX,topY,150,30);
     }
+    
+    public int getValue() { return value; }
 
     public String getPeca(){ return peca; }
 

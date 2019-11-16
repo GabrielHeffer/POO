@@ -26,5 +26,7 @@ public class Destroyers extends Peca {
         if(atingido >= 2)
             valor = -1;
     }
+    
+    public int getValue () { return valor; }
 
 }

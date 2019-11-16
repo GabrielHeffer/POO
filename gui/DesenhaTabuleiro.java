@@ -24,11 +24,46 @@ public class DesenhaTabuleiro {
                 rt = new Rectangle2D.Double(X, Y, larg, alt);
                 if (Tabuleiro[i][j] == 0)
                     g2d.draw(rt);
+                
                 else {
-                    g2d.setPaint(Color.gray);
-                    g2d.fill(rt);
-                    g2d.draw(rt);
+                	if(select.peca_selecionada.getValue()== 1) {
+                		g2d.setColor(new Color(169, 220, 160));
+                		
+                    	g2d.fill(rt);
+                    	g2d.draw(rt);
+                	}
+                	
+                	else if(select.peca_selecionada.getValue()== 2) {
+                		g2d.setColor(new Color(255, 230, 101));
+                		
+                    	g2d.fill(rt);
+                    	g2d.draw(rt);
+                	}
+                	
+                	else if(select.peca_selecionada.getValue()== 3) {
+                		g2d.setColor(new Color(232, 128, 115));
+                		
+                    	g2d.fill(rt);
+                    	g2d.draw(rt);
+                	}
+                	
+                	else if(select.peca_selecionada.getValue()== 4) {
+                		
+                		g2d.setColor(new Color(186, 126, 235));
+                		
+                		g2d.fill(rt);
+                		g2d.draw(rt);
+            	}
+                	
+                	else if (select.peca_selecionada.getValue()== 5){
+                		g2d.setColor(new Color(130, 169, 230));
+                		
+                    	g2d.fill(rt);
+                    	g2d.draw(rt);
+                	}
+
                 }
+                
                 //g2d.draw(rt);
                 X += 30;
             }

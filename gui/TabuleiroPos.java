@@ -35,11 +35,11 @@ public class TabuleiroPos extends JPanel implements MouseListener, Observador {
         sa=screenSize.height;
         leftX=sl/2 + LARG_DEFAULT/2;
         topY= sa/2 - ALT_DEFAULT;
-        pecas = new Peca[]{new Peca(30,topY,"H",0),new Peca(150,topY,"H",1),new Peca(270,topY,"H",2),new Peca(390,topY,"H",3),new Peca(510,topY,"H",4),
-                new Peca(30,topY+120,"S",0),new Peca(90,topY+120,"S",1),new Peca(150,topY+120,"S",2),new Peca(210,topY+120,"S",3),
-                new Peca(30,topY+210,"D",0),new Peca(120,topY+210,"D",1),new Peca(210,topY+210,"D",2),
-                new Peca(30,topY+300,"Cr",0),new Peca(180,topY+300,"Cr",1),
-                new Peca(30,topY+390,"Co",0)};
+        pecas = new Peca[]{new Peca(30,topY,"H",0,5),new Peca(150,topY,"H",1,5),new Peca(270,topY,"H",2,5),new Peca(390,topY,"H",3,5),new Peca(510,topY,"H",4,5),
+                new Peca(30,topY+120,"S",0,1),new Peca(90,topY+120,"S",1,1),new Peca(150,topY+120,"S",2,1),new Peca(210,topY+120,"S",3,1),
+                new Peca(30,topY+210,"D",0,2),new Peca(120,topY+210,"D",1,2),new Peca(210,topY+210,"D",2,2),
+                new Peca(30,topY+300,"Cr",0,3),new Peca(180,topY+300,"Cr",1,3),
+                new Peca(30,topY+390,"Co",0,4)};
     }
 
 
@@ -61,7 +61,9 @@ public class TabuleiroPos extends JPanel implements MouseListener, Observador {
         TabPronto.setText(String.format("Tabuleiro de %s pronto",dados[3]));
         this.add(TabPronto);
         TabPronto.setVisible(true);
+       
         DesenhaTabuleiro.Desenha( (int[][]) dados[ (int) dados[0] ],g,leftX,topY);
+
         for(Peca peca:pecas){
             peca.addMouseListener(peca);
             peca.addMouseListener(this);

@@ -32,4 +32,6 @@ public class Hidroviao extends Peca {
         if(atingido >= 3)
             valor = -1;
     }
+    
+    public int getValue () { return valor; }
 }
