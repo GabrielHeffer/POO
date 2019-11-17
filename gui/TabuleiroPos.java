@@ -81,10 +81,7 @@ public class TabuleiroPos extends JPanel implements MouseListener, Observador {
     public void mudarFaseAtaque() {
         TabPronto.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent event){
-
-                System.out.println("B1");
-
-                //COLOCAR COD PARA MUDANCA DE FASE
+            	Regras.MudaTabJogador2();
             }
         });
     }

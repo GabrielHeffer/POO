@@ -12,7 +12,7 @@ public class Regras implements Observado {
     private String NomeJogVez;
     private int[] [] TabuleiroJog1 = new int[15][];
     private int[] [] TabuleiroJog2;
-    private int jogadorVez = 1;
+    private  int jogadorVez = 1;
     protected Hidroviao[] hidroavioes;
     protected Submarino[] submarinos;
     protected Destroyers[] destroyers;
@@ -177,6 +177,18 @@ public class Regras implements Observado {
         }
         this.PosicionarPeca(peca,Idpeca,selecionada.getCoordenadaInicial());
     }
+    
+    public void MudaTabJogador2()
+	{
+		if (jogadorVez == 2)
+		{
+			for(Observador o: lob)
+			{
+				o.notify(this);
+			}
+		}
+
+	}
 
     public void notificar() {
         for (Observador o : lob)
