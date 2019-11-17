@@ -22,42 +22,44 @@ public class DesenhaTabuleiro {
 
 
                 rt = new Rectangle2D.Double(X, Y, larg, alt);
-                if (Tabuleiro[i][j] == 0)
+                if (Tabuleiro[i][j] == 0) {
+                    g2d.setColor(Color.black);
                     g2d.draw(rt);
-                
+                }
+
                 else {
-                	if(select.peca_selecionada.getValue()== 1) {
-                		g2d.setColor(new Color(169, 220, 160));
-                		
+                	if(Tabuleiro[i][j]== 1) {
+                		g2d.setPaint(new Color(169, 220, 160));
+
                     	g2d.fill(rt);
                     	g2d.draw(rt);
                 	}
-                	
-                	else if(select.peca_selecionada.getValue()== 2) {
-                		g2d.setColor(new Color(255, 230, 101));
-                		
+
+                	else if(Tabuleiro[i][j]== 2) {
+                		g2d.setPaint(new Color(255, 230, 101));
+
                     	g2d.fill(rt);
                     	g2d.draw(rt);
                 	}
-                	
-                	else if(select.peca_selecionada.getValue()== 3) {
-                		g2d.setColor(new Color(232, 128, 115));
-                		
+
+                	else if(Tabuleiro[i][j]== 3) {
+                		g2d.setPaint(new Color(232, 128, 115));
+
                     	g2d.fill(rt);
                     	g2d.draw(rt);
                 	}
-                	
-                	else if(select.peca_selecionada.getValue()== 4) {
-                		
-                		g2d.setColor(new Color(186, 126, 235));
-                		
+
+                	else if(Tabuleiro[i][j]== 4) {
+
+                		g2d.setPaint(new Color(186, 126, 235));
+
                 		g2d.fill(rt);
                 		g2d.draw(rt);
             	}
-                	
-                	else if (select.peca_selecionada.getValue()== 5){
-                		g2d.setColor(new Color(130, 169, 230));
-                		
+
+                	else if (Tabuleiro[i][j]== 5){
+                		g2d.setPaint(new Color(130, 169, 230));
+
                     	g2d.fill(rt);
                     	g2d.draw(rt);
                 	}

@@ -6,10 +6,7 @@ import controler.Regras;
 import controler.Coordenadas;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
 import javax.swing.*;
 
@@ -49,6 +46,16 @@ public class TabuleiroPos extends JPanel implements MouseListener, Observador {
         setLayout(null);
         TabPronto.setBounds(sl/2-110,sa-200,220,40);
         addMouseListener(this);
+        this.addKeyListener(new java.awt.event.KeyListener() {
+            public void keyPressed(java.awt.event.KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_Z && select.peca_selecionada.is_posicionada()) {
+                    Regras.getCtrl().RetirarPeca(select.peca_selecionada.getPeca(), select.peca_selecionada.getId());
+                    select.peca_selecionada.setNotPosicionada();
+                }
+            }
+            public void keyReleased(java.awt.event.KeyEvent e) {}
+            public void keyTyped(java.awt.event.KeyEvent e) {}
+        });
         mudarFaseAtaque();
         Regras.getCtrl().add(this);
     }
@@ -69,7 +76,7 @@ public class TabuleiroPos extends JPanel implements MouseListener, Observador {
             peca.addMouseListener(this);
             peca.CriaPeca(g);
         }
-
+        this.requestFocusInWindow();
     }
 
     public void mudarFaseAtaque() {
@@ -87,22 +94,27 @@ public class TabuleiroPos extends JPanel implements MouseListener, Observador {
     @Override
     public void mouseClicked(MouseEvent e) {
 
-        int x = e.getX() ;
-        int y = e.getY() ;
+        if(e.getButton() == MouseEvent.BUTTON3){
+            if(select.peca_selecionada != null && select.peca_selecionada.is_posicionada())
+                Regras.getCtrl().RotacionarPeca(select.peca_selecionada.getPeca(), select.peca_selecionada.getId());
+        }else {
+            int x = e.getX();
+            int y = e.getY();
 
-        leftX=sl/2 + LARG_DEFAULT/2;
-        topY= sa/2 - ALT_DEFAULT;
+            leftX = sl / 2 + LARG_DEFAULT / 2;
+            topY = sa / 2 - ALT_DEFAULT;
 
-        pos[0] = (x-leftX)/30; //coluna
-        pos[1] = (y-topY)/30; //linha
+            pos[0] = (x - leftX) / 30; //coluna
+            pos[1] = (y - topY) / 30; //linha
 
-        if( ( pos[0]>=0 && pos[0]<15 ) && ( pos[1]>=0 && pos[1]<15 ) && select.peca_selecionada != null ){
-            Coordenadas cord = new Coordenadas(pos[0],pos[1]);
-            Regras.getCtrl().PosicionarPeca(select.peca_selecionada.getPeca(),
-                    select.peca_selecionada.getId(),cord);
+            if ((pos[0] >= 0 && pos[0] < 15) && (pos[1] >= 0 && pos[1] < 15) && select.peca_selecionada != null &&
+             !select.peca_selecionada.is_posicionada()) {
+                Coordenadas cord = new Coordenadas(pos[0], pos[1]);
+                Regras.getCtrl().PosicionarPeca(select.peca_selecionada.getPeca(),
+                        select.peca_selecionada.getId(), cord);
+            } else
+                repaint();
         }
-        else
-            repaint();
 
 
         return;
@@ -131,6 +143,7 @@ public class TabuleiroPos extends JPanel implements MouseListener, Observador {
 
     @Override
     public void notify(Observado o) {
+        select.peca_selecionada.setPosicionada();
         repaint();
     }
 }

@@ -2,7 +2,7 @@ package controler;
 
 public abstract class Peca {
     protected int valor;
-    protected int rotacao;
+    protected int rotacao = 0;
     protected int linha, coluna;
     protected int atingido;
 
@@ -22,5 +22,10 @@ public abstract class Peca {
     void Atingido(){
         atingido++;
         abatido();
+    }
+
+    public Coordenadas getCoordenadaInicial(){
+        Coordenadas cord = new Coordenadas(coluna,linha);
+        return cord;
     }
 }

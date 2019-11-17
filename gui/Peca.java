@@ -15,6 +15,8 @@ public class Peca extends JPanel implements MouseListener {
     private int leftX;
     private int topY;
     private int value;
+    private boolean posicionada;
+    private int width,height,rotacao = 0;
 
     public Peca(int x, int y, String desPec, int id, int valor){
         leftX = x;
@@ -24,16 +26,27 @@ public class Peca extends JPanel implements MouseListener {
         value = valor;
         setLayout(null);
         setOpaque(false);
-        if(desPec.equals("H"))
-            setBounds(leftX,topY,90,60);
-        else if(desPec.equals("S"))
-            setBounds(leftX,topY,30,30);
-        else if(desPec.equals("D"))
-            setBounds(leftX,topY,60,30);
-        else if(desPec.equals("Cr"))
-            setBounds(leftX,topY,120,30);
-        else
-            setBounds(leftX,topY,150,30);
+        if(desPec.equals("H")){
+            width = 90;
+            height = 60;
+        }
+        else if(desPec.equals("S")){
+            width = 30;
+            height = 30;
+        }
+        else if(desPec.equals("D")){
+            width = 60;
+            height = 30;
+        }
+        else if(desPec.equals("Cr")){
+            width = 120;
+            height = 30;
+        }
+        else{
+            width = 150;
+            height = 30;
+        }
+            setBounds(leftX,topY,width,height);
     }
     
     public int getValue() { return value; }
@@ -42,9 +55,29 @@ public class Peca extends JPanel implements MouseListener {
 
     public int getId(){ return Id; }
 
+    public void Posicionar(int leftx,int topy) {
+        this.leftX = leftx;
+        this.topY = topy;
+        setLocation(leftX,topY);
+    }
+
+    public void Rotacionar(){
+        rotacao = (rotacao+1)%4;
+        if(rotacao == 1)
+            setSize(height,width);
+        else if(rotacao == 2)
+            setBounds(leftX - width,topY - height,width,height);
+        else if(rotacao == 3)
+            setBounds(leftX - height,topY - width,height,width);
+        else
+            setBounds(leftX,topY,width,height);
+    }
+
     private void EscolheCor(Graphics2D g2d){
-        if(select.peca_selecionada == this)
-            g2d.setPaint(Color.gray);
+        if(this.equals(select.peca_selecionada))
+            g2d.setColor(Color.gray);
+        else if(this.posicionada)
+            g2d.setColor(Color.white);
         else if(peca.equals("H"))
             g2d.setColor(new Color(130, 169, 230));
         else if(peca.equals("S"))
@@ -65,6 +98,7 @@ public class Peca extends JPanel implements MouseListener {
                 g2d.draw(rect);
             }
         }
+        g2d.setColor(null);
     }
 
     public void CriaPeca(Graphics g){
@@ -106,7 +140,23 @@ public class Peca extends JPanel implements MouseListener {
         this.DesenhaPeca(g2d,rect);
     }
 
+    public void setPosicionada(){
+        posicionada = true;
+    }
 
+    public void setNotPosicionada(){
+        posicionada = false;
+    }
+
+    public boolean equals(Peca p){
+        if(p != null && p.peca.equals(this.peca) && p.Id == this.Id)
+            return true;
+        return false;
+    }
+
+    public boolean is_posicionada(){
+        return posicionada;
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {

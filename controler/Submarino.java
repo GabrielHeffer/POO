@@ -17,6 +17,5 @@ public class Submarino extends Peca{
         if(atingido > 0)
             valor = -1;
     }
-    
-    public int getValue () { return valor; }
+
 }
