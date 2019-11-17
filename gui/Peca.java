@@ -19,6 +19,7 @@ public class Peca extends JPanel implements MouseListener {
     private int value;
     private boolean posicionada;
     private int width,height,rotacao = 0;
+    private int pecaPos =0;
 
     public Peca(int x, int y, String desPec, int id, int valor){
         leftX = x;
@@ -50,6 +51,13 @@ public class Peca extends JPanel implements MouseListener {
         }
             setBounds(leftX,topY,width,height);
     }
+    
+    public void contPosicionada () {
+    	if (this.posicionada)
+    		pecaPos ++;
+    }
+    
+    public int getQtpos() {return pecaPos; }
     
     public int getValue() { return value; }
 
