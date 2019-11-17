@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
+
+import controler.Regras;
 import gui.select;
 
 public class Peca extends JPanel implements MouseListener {
@@ -74,10 +76,13 @@ public class Peca extends JPanel implements MouseListener {
     }
 
     private void EscolheCor(Graphics2D g2d){
-        if(this.equals(select.peca_selecionada))
-            g2d.setColor(Color.gray);
-        else if(this.posicionada)
+
+        if(this.posicionada)
             g2d.setColor(Color.white);
+        else if(this.equals(select.peca_selecionada))
+            g2d.setColor(Color.gray);
+        else if(this.equals(select.peca_selecionada))
+            g2d.setColor(Color.gray);
         else if(peca.equals("H"))
             g2d.setColor(new Color(130, 169, 230));
         else if(peca.equals("S"))
@@ -161,6 +166,8 @@ public class Peca extends JPanel implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         select.peca_selecionada = this;
+        Regras.getCtrl().RetirarPeca(select.peca_selecionada.getPeca(), select.peca_selecionada.getId());
+        select.peca_selecionada.setNotPosicionada();
         repaint();
     }
 

@@ -49,8 +49,7 @@ public class TabuleiroPos extends JPanel implements MouseListener, Observador {
         this.addKeyListener(new java.awt.event.KeyListener() {
             public void keyPressed(java.awt.event.KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_Z && select.peca_selecionada.is_posicionada()) {
-                    Regras.getCtrl().RetirarPeca(select.peca_selecionada.getPeca(), select.peca_selecionada.getId());
-                    select.peca_selecionada.setNotPosicionada();
+
                 }
             }
             public void keyReleased(java.awt.event.KeyEvent e) {}
@@ -107,12 +106,11 @@ public class TabuleiroPos extends JPanel implements MouseListener, Observador {
             pos[0] = (x - leftX) / 30; //coluna
             pos[1] = (y - topY) / 30; //linha
 
-            if ((pos[0] >= 0 && pos[0] < 15) && (pos[1] >= 0 && pos[1] < 15) && select.peca_selecionada != null &&
-             !select.peca_selecionada.is_posicionada()) {
+            if ((pos[0] >= 0 && pos[0] < 15) && (pos[1] >= 0 && pos[1] < 15) && select.peca_selecionada != null ) {
                 Coordenadas cord = new Coordenadas(pos[0], pos[1]);
                 Regras.getCtrl().PosicionarPeca(select.peca_selecionada.getPeca(),
                         select.peca_selecionada.getId(), cord);
-            } else
+            }else
                 repaint();
         }
 
