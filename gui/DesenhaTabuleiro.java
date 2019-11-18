@@ -63,6 +63,12 @@ public class DesenhaTabuleiro {
                     	g2d.fill(rt);
                     	g2d.draw(rt);
                 	}
+					else if (Tabuleiro[i][j]== -10){
+						g2d.setPaint(Color.red);
+
+						g2d.fill(rt);
+						g2d.draw(rt);
+					}
 
                 }
                 

@@ -36,6 +36,10 @@ public class PNjogo extends JFrame  {
         getContentPane().add(new TabuleiroPos());
     }
 
+    public void PNAtaque(){
+
+    }
+
     public static void main(String[] args){
         Regras.getCtrl();
         PNjogo.getPnjogo();

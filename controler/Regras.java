@@ -1,6 +1,7 @@
 package controler;
 import Observer.*;
 import gui.PNjogo;
+import sun.print.PeekGraphics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,16 +9,12 @@ import java.util.List;
 
 public class Regras implements Observado {
     List<Observador> lob=new ArrayList<Observador>();
-    private String NomeJog1,NomeJog2;
+    private String[] NomesJogadores;
     private String NomeJogVez;
-    private int[] [] TabuleiroJog1 = new int[15][];
-    private int[] [] TabuleiroJog2;
+    private int[] AtaquesJogadores;
+    private Object[] TabJogadores = new Object[2];
     private  int jogadorVez = 1;
-    protected Hidroviao[] hidroavioes;
-    protected Submarino[] submarinos;
-    protected Destroyers[] destroyers;
-    protected Cruzador[] cruzadores;
-    protected Couracado[] couracado;
+    private PecasJogador[] PecasJogadores = new PecasJogador[2];
     private static  Regras ctrl_regras = null;
 
     private Regras(){ }
@@ -28,22 +25,25 @@ public class Regras implements Observado {
     }
 
     {
+        int[] [] TabuleiroJog1 = new int[15][];
+        int[] [] TabuleiroJog2 = new int[15][];
         for(int i = 0;i < 15;i++)
             TabuleiroJog1[i] = new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-        TabuleiroJog2 = TabuleiroJog1.clone();
-        hidroavioes = new Hidroviao[]{new Hidroviao(),new Hidroviao(),new Hidroviao(),new Hidroviao(),new Hidroviao()};
-        submarinos = new Submarino[]{new Submarino(),new Submarino(),new Submarino(),new Submarino()};
-        destroyers = new Destroyers[]{new Destroyers(),new Destroyers(),new Destroyers()};
-        cruzadores = new Cruzador[]{new Cruzador(),new Cruzador()};
-        couracado = new Couracado[]{new Couracado()};
+        for(int i = 0;i < 15;i++)
+            TabuleiroJog2[i] = new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+        TabJogadores[0] = TabuleiroJog1;
+        TabJogadores[1] = TabuleiroJog2;
+        PecasJogadores[0] = new PecasJogador();
+        PecasJogadores[1] = new PecasJogador();
+        NomesJogadores = new String[2];
     }
 
     public boolean SetNomesJogadores(String nomeJog1,String nomeJog2){
         if(nomeJog1.equals("") || nomeJog2.equals(""))
             return false;
-        NomeJog1 = nomeJog1;
-        NomeJog2 = nomeJog2;
-        NomeJogVez = NomeJog1;
+        NomesJogadores[0] = nomeJog1;
+        NomesJogadores[1] = nomeJog2;
+        NomeJogVez = NomesJogadores[jogadorVez-1];
         return true;
     }
     public void add(Observador o) {
@@ -60,8 +60,8 @@ public class Regras implements Observado {
         Object dados[]=new Object[5];
 
         dados[0]= jogadorVez;
-        dados[1]=TabuleiroJog1;
-        dados[2]=TabuleiroJog2;
+        dados[1]=TabJogadores[0];
+        dados[2]=TabJogadores[1];
         dados[3]=NomeJogVez;
 
         return dados;
@@ -94,77 +94,60 @@ public class Regras implements Observado {
     private boolean VerificarRegraPos(Coordenadas[] cords){
         int[][] tab;
         int soma = 0;
-        if( jogadorVez == 1 )
-            tab = TabuleiroJog1;
-        else
-            tab = TabuleiroJog2;
-        soma = this.SomaRegras(tab,cords);
+        soma = this.SomaRegras((int[][])TabJogadores[jogadorVez-1],cords);
         if(soma == 0)
             return true;
         return false;
 
     }
 
-    private void ColocarPeca(Coordenadas[] pos,Peca peca){
+    private void ColocarPeca(Coordenadas[] pos,Peca peca,int valor){
+        int[][] tab = (int[][]) TabJogadores[jogadorVez-1];
+        if(peca != null)
+            valor = peca.getValor();
         for(Coordenadas cord: pos){
-            if(jogadorVez == 1)
-                TabuleiroJog1[cord.getLinha()][cord.getColuna()] = peca.valor;
-            else if(jogadorVez == 2)
-                TabuleiroJog2[cord.getLinha()][cord.getColuna()] = peca.valor;
+            if(tab[cord.getLinha()][cord.getColuna()] == 0)
+                tab[cord.getLinha()][cord.getColuna()] = valor;
         }
-    }
-
-    private Peca IdentificaPeca(String peca, int Idpeca){
-        Peca selecionada = null;
-        if(peca.equals("H"))
-            return hidroavioes[Idpeca];
-        else if(peca.equals("S"))
-            return submarinos[Idpeca];
-        else if(peca.equals("D"))
-            return destroyers[Idpeca];
-        else if(peca.equals("Cr"))
-            return cruzadores[Idpeca];
-        else if(peca.equals("Co"))
-            return couracado[Idpeca];
-        return null;
     }
 
     public void PosicionarPeca(String peca, int Idpeca,Coordenadas cord){
         Peca selecionada = null;
         Coordenadas[] pos;
-        selecionada = this.IdentificaPeca(peca,Idpeca);
+        selecionada = (Peca) PecasJogadores[jogadorVez - 1].getPeca(peca,Idpeca);
         selecionada.setLocation(cord.getColuna(),cord.getLinha());
         pos = selecionada.Coordenadas_peca();
         if(this.VerificarRegraPos(pos)) {
-            this.ColocarPeca(pos, selecionada);
-            this.notificar();
+            this.ColocarPeca(pos, selecionada,0);
+            selecionada.posicionada = true;
+            this.notificar("POS");
         }else{
-            selecionada.setLocation(0,0);
+            this.ColocarPeca(pos, null,-10);
+            this.notificar("NPOS");
         }
     }
 
     private void ApagarPeca(Coordenadas[] cords){
+        int[][] tab = (int[][]) TabJogadores[jogadorVez-1];
         for (Coordenadas cord : cords) {
-            if (jogadorVez == 1)
-                TabuleiroJog1[cord.getLinha()][cord.getColuna()] = 0;
-            else if (jogadorVez == 2)
-                TabuleiroJog2[cord.getLinha()][cord.getColuna()] = 0;
+            tab[cord.getLinha()][cord.getColuna()] = 0;
         }
     }
 
     public void RetirarPeca(String peca, int Idpeca){
         Peca selecionada = null;
         Coordenadas[] pos;
-        selecionada = this.IdentificaPeca(peca,Idpeca);
+        selecionada = PecasJogadores[jogadorVez - 1].getPeca(peca,Idpeca);;
         this.ApagarPeca(selecionada.Coordenadas_peca());
         selecionada.setLocation(0,0);
-        this.notificar();
+        selecionada.posicionada = false;
+        this.notificar("");
     }
 
     public void RotacionarPeca(String peca, int Idpeca){
         Peca selecionada = null;
         Coordenadas[] pos;
-        selecionada = this.IdentificaPeca(peca,Idpeca);
+        selecionada = PecasJogadores[jogadorVez - 1].getPeca(peca,Idpeca);
 
         pos = selecionada.Coordenadas_peca();
         this.ApagarPeca(pos);
@@ -178,20 +161,27 @@ public class Regras implements Observado {
         this.PosicionarPeca(peca,Idpeca,selecionada.getCoordenadaInicial());
     }
     
-    public void MudaTabJogador2()
+    public void MudaTabJogadorPos()
 	{
-		if (jogadorVez == 2)
-		{
-			for(Observador o: lob)
-			{
-				o.notify(this);
-			}
-		}
-
+	    if(PecasJogadores[jogadorVez - 1].verificaPos()) {
+            jogadorVez =(jogadorVez +1)%2;
+            NomeJogVez = NomesJogadores[jogadorVez-1];
+            this.notificar("");
+        }
 	}
 
-    public void notificar() {
+	public boolean faseAtaque(){
+        if(PecasJogadores[0].verificaPos() && PecasJogadores[1].verificaPos()){
+            AtaquesJogadores = new int[2];
+            AtaquesJogadores[0] = 3;
+            AtaquesJogadores[1] = 3;
+            return true;
+        }
+        return false;
+    }
+
+    public void notificar(String mensagem) {
         for (Observador o : lob)
-            o.notify(this);
+            o.notify(mensagem,this);
     }
 }

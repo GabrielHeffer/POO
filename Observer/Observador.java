@@ -1,5 +1,5 @@
 package Observer;
 
 public interface Observador {
-    public void notify(Observado o);
+    public void notify(String mensagem,Observado o);
 }

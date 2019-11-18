@@ -10,7 +10,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-public class TabuleiroPos extends JPanel implements MouseListener, Observador {
+public class TabuleiroPos extends JPanel implements MouseListener,KeyListener, Observador {
 
     public final int LARG_DEFAULT=400;
     public final int ALT_DEFAULT=300;
@@ -46,6 +46,7 @@ public class TabuleiroPos extends JPanel implements MouseListener, Observador {
         setLayout(null);
         TabPronto.setBounds(sl/2-110,sa-200,220,40);
         addMouseListener(this);
+        addKeyListener(this);
         this.addKeyListener(new java.awt.event.KeyListener() {
             public void keyPressed(java.awt.event.KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_Z && select.peca_selecionada.is_posicionada()) {
@@ -81,7 +82,10 @@ public class TabuleiroPos extends JPanel implements MouseListener, Observador {
     public void mudarFaseAtaque() {
         TabPronto.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent event){
-            	Regras.MudaTabJogador2();
+            	if(JogadorVez == 2 && Regras.getCtrl().faseAtaque())
+            	    PNjogo.getPnjogo();
+            	else
+                    Regras.getCtrl().MudaTabJogadorPos();
             }
         });
     }
@@ -91,7 +95,7 @@ public class TabuleiroPos extends JPanel implements MouseListener, Observador {
     public void mouseClicked(MouseEvent e) {
 
         if(e.getButton() == MouseEvent.BUTTON3){
-            if(select.peca_selecionada != null && select.peca_selecionada.is_posicionada())
+            if(select.peca_selecionada != null && select.peca_selecionada.is_posicionada() )
                 Regras.getCtrl().RotacionarPeca(select.peca_selecionada.getPeca(), select.peca_selecionada.getId());
         }else {
             int x = e.getX();
@@ -103,10 +107,19 @@ public class TabuleiroPos extends JPanel implements MouseListener, Observador {
             pos[0] = (x - leftX) / 30; //coluna
             pos[1] = (y - topY) / 30; //linha
 
-            if ((pos[0] >= 0 && pos[0] < 15) && (pos[1] >= 0 && pos[1] < 15) && select.peca_selecionada != null ) {
-                Coordenadas cord = new Coordenadas(pos[0], pos[1]);
-                Regras.getCtrl().PosicionarPeca(select.peca_selecionada.getPeca(),
-                        select.peca_selecionada.getId(), cord);
+            if ((pos[0] >= 0 && pos[0] < 15) && (pos[1] >= 0 && pos[1] < 15) && select.peca_selecionada != null ){
+                if(!select.peca_selecionada.is_posicionada()) {
+                    Coordenadas cord = new Coordenadas(pos[0], pos[1]);
+                    Regras.getCtrl().PosicionarPeca(select.peca_selecionada.getPeca(),
+                            select.peca_selecionada.getId(), cord);
+                }
+                else{
+                    Regras.getCtrl().RetirarPeca(select.peca_selecionada.getPeca(), select.peca_selecionada.getId());
+                    select.peca_selecionada.setNotPosicionada();
+                    Coordenadas cord = new Coordenadas(pos[0], pos[1]);
+                    Regras.getCtrl().PosicionarPeca(select.peca_selecionada.getPeca(),
+                            select.peca_selecionada.getId(), cord);
+                }
             }else
                 repaint();
         }
@@ -114,6 +127,11 @@ public class TabuleiroPos extends JPanel implements MouseListener, Observador {
 
         return;
 
+    }
+
+    private void ReinicializarPecas(){
+        for(Peca peca: pecas)
+            peca.setNotPosicionada();
     }
 
     @Override
@@ -137,8 +155,37 @@ public class TabuleiroPos extends JPanel implements MouseListener, Observador {
     }
 
     @Override
-    public void notify(Observado o) {
-        select.peca_selecionada.setPosicionada();
+    public void notify(String mensagem,Observado o) {
+        Object[] dados = (Object[]) Regras.getCtrl().get(this);
+        if(JogadorVez != (int)dados[0]) {
+            this.ReinicializarPecas();
+            JogadorVez = (int) dados[0];
+            select.peca_selecionada = null;
+        }
+        else {
+            if(mensagem.equals("POS"))
+                select.peca_selecionada.setPosicionada();
+        }
         repaint();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if(e.getKeyCode() == KeyEvent.VK_ESCAPE && select.peca_selecionada != null){
+            if(!select.peca_selecionada.is_posicionada()){
+                Regras.getCtrl().RetirarPeca(select.peca_selecionada.getPeca(), select.peca_selecionada.getId());
+            }
+            select.peca_selecionada = null;
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }

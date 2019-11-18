@@ -174,8 +174,10 @@ public class Peca extends JPanel implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         select.peca_selecionada = this;
-        Regras.getCtrl().RetirarPeca(select.peca_selecionada.getPeca(), select.peca_selecionada.getId());
-        select.peca_selecionada.setNotPosicionada();
+        if(this.is_posicionada()) {
+            Regras.getCtrl().RetirarPeca(select.peca_selecionada.getPeca(), select.peca_selecionada.getId());
+            select.peca_selecionada.setNotPosicionada();
+        }
         repaint();
     }
 

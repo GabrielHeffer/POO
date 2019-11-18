@@ -5,6 +5,7 @@ public abstract class Peca {
     protected int rotacao = 0;
     protected int linha, coluna;
     protected int atingido;
+    protected boolean posicionada = false;
 
     public abstract Coordenadas[] Coordenadas_peca();
 
@@ -27,5 +28,13 @@ public abstract class Peca {
     public Coordenadas getCoordenadaInicial(){
         Coordenadas cord = new Coordenadas(coluna,linha);
         return cord;
+    }
+
+    public int getValor(){
+        return valor;
+    }
+
+    public boolean is_posicionada(){
+        return posicionada;
     }
 }
