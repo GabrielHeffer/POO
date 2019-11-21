@@ -37,7 +37,7 @@ public class PNjogo extends JFrame  {
     }
 
     public void PNAtaque(){
-
+        getContentPane().add(new PNataque());
     }
 
     public static void main(String[] args){

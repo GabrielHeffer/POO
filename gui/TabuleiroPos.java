@@ -69,7 +69,7 @@ public class TabuleiroPos extends JPanel implements MouseListener,KeyListener, O
         this.add(TabPronto);
         TabPronto.setVisible(true);
        
-        DesenhaTabuleiro.Desenha( (int[][]) dados[ (int) dados[0] ],g,leftX,topY);
+        DesenhaTabuleiro.Desenha( (int[][]) dados[ (int) dados[0] ],g,leftX,topY,true);
 
         for(Peca peca:pecas){
             peca.addMouseListener(peca);
@@ -82,8 +82,11 @@ public class TabuleiroPos extends JPanel implements MouseListener,KeyListener, O
     public void mudarFaseAtaque() {
         TabPronto.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent event){
-            	if(JogadorVez == 2 && Regras.getCtrl().faseAtaque())
-            	    PNjogo.getPnjogo();
+            	if(JogadorVez == 2 && Regras.getCtrl().faseAtaque()) {
+            	    setVisible(false);
+                    PNjogo.getPnjogo().PNAtaque();
+
+                }
             	else
                     Regras.getCtrl().MudaTabJogadorPos();
             }
