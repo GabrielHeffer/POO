@@ -37,6 +37,7 @@ public class PNjogo extends JFrame  {
     }
 
     public void PNAtaque(){
+        repaint();
         getContentPane().add(new PNataque());
     }
 
