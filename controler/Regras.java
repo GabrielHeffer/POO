@@ -3,6 +3,9 @@ import Observer.*;
 import gui.PNjogo;
 
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -231,32 +234,33 @@ public class Regras implements Observado {
         if(NomeGanhador == null) {
             int valor;
             if (AtaquesJogadores[jogadorVez] > 0) {
+                String embarc_atingida = new String("");
                 int oponente = (jogadorVez + 1) % 2;
                 int[][] tab = (int[][]) TabJogadores[oponente];
                 valor = this.realizaAtaque(cord, tab);
                 if (valor == 0) {
                     AtaquesJogadores[jogadorVez]--;
-                    this.verificaGanhador();
                     this.notificar("agua");
                 } else if (valor > 0) {
                     AtaquesJogadores[jogadorVez]--;
                     if (valor == 1) {
                         PecasJogadores[oponente].atingirPeca("S", cord);
-                        this.notificar("S");
+                        embarc_atingida = "S";
                     } else if (valor == 2) {
                         PecasJogadores[oponente].atingirPeca("D", cord);
-                        this.notificar("D");
+                        embarc_atingida = "D";
                     } else if (valor == 3) {
                         PecasJogadores[oponente].atingirPeca("Cr", cord);
-                        this.notificar("Cr");
+                        embarc_atingida = "Cr";
                     } else if (valor == 4) {
                         PecasJogadores[oponente].atingirPeca("Co", cord);
-                        this.notificar("Co");
+                        embarc_atingida = "Co";
                     } else if (valor == 5) {
                         PecasJogadores[oponente].atingirPeca("H", cord);
-                        this.notificar("H");
+                        embarc_atingida = "H";
                     }
                 }
+                this.notificar(embarc_atingida);
             }
         }
     }
@@ -281,6 +285,75 @@ public class Regras implements Observado {
             NomeGanhador = NomeJogVez;
         if(NomeGanhador != null)
             this.notificar("Vencedor");
+    }
+
+    public void NovoJogo(){
+        int[] [] TabuleiroJog1 = new int[15][];
+        int[] [] TabuleiroJog2 = new int[15][];
+        for(int i = 0;i < 15;i++)
+            TabuleiroJog1[i] = new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+        for(int i = 0;i < 15;i++)
+            TabuleiroJog2[i] = new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+        TabJogadores[0] = TabuleiroJog1;
+        TabJogadores[1] = TabuleiroJog2;
+        NomeGanhador = null;
+        NomeJogVez = null;
+        PecasJogadores[0] = new PecasJogador();
+        PecasJogadores[1] = new PecasJogador();
+        NomesJogadores = new String[2];
+    }
+
+    public void saveJogo(String nameFile) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(nameFile));
+        writer.write((String) NomesJogadores[0]);
+        writer.newLine();
+
+        int[][] tab =(int[][]) TabJogadores[0];
+
+
+        for (int x = 0; x < 15; ++x)
+            for (int y = 0; y < 15; ++y)
+                writer.write(tab[x][y] + "");
+        writer.newLine();
+
+        writer.write((String) NomesJogadores[1]);
+        int[][] tab2 =(int[][]) TabJogadores[1];
+
+        writer.newLine();
+
+        for (int x = 0; x < 15; ++x)
+            for (int y = 0; y < 15; ++y)
+                writer.write(tab2[x][y]+ "");
+        writer.newLine();
+
+
+
+        writer.write(AtaquesJogadores[0] + "");
+        writer.newLine();
+        writer.write(AtaquesJogadores[1] + "");
+        writer.newLine();
+
+
+        writer.write(NomeJogVez + "");
+        writer.newLine();
+
+
+        writer.write(jogadorVez + "");
+        writer.newLine();
+
+
+        writer.write(PecasJogadores[0].pecasAfundadas() + "");
+        writer.newLine();
+
+
+        writer.write(PecasJogadores[1] + "");
+        writer.newLine();
+
+        writer.write(NomeGanhador + "");
+
+        writer.flush();
+        writer.close();
+
     }
 
     public void notificar(String mensagem) {

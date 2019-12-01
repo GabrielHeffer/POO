@@ -20,6 +20,7 @@ public class PNataque extends JPanel implements Observador, MouseListener, Actio
     private String label_ataque = new String("");
     private JButton terminar_jogada = new JButton();
     private int jodadas_restantes = 3;
+    private MenuBar menu_save = new MenuBar("Save");
 
 
     public PNataque(){
@@ -31,6 +32,7 @@ public class PNataque extends JPanel implements Observador, MouseListener, Actio
         terminar_jogada.setBounds(sl/2-110,sa-200,220,40);
         terminar_jogada.addActionListener(this);
         add(terminar_jogada);
+        add(menu_save);
         setLayout(null);
         addMouseListener(this);
         Regras.getCtrl().add(this);
@@ -44,8 +46,8 @@ public class PNataque extends JPanel implements Observador, MouseListener, Actio
         jodadas_restantes = (int)dados[4];
         g.setFont(new Font("Arial", Font.PLAIN, 14));
         terminar_jogada.setText(String.format("Terminar jogada %s",(String)dados[3] ) );
-        g2d.drawString(String.format("Tabuleiro Jogador %s",(String)dados[3]),30,20);
-        g2d.drawString(String.format("Tabuleiro Oponente",(String)dados[3]),sl - 200,20);
+        g2d.drawString(String.format("Tabuleiro Jogador %s",(String)dados[3]),30,40);
+        g2d.drawString(String.format("Tabuleiro Oponente",(String)dados[3]),sl - 200,40);
         g2d.drawString(String.format("Jogadas restantes: %d",jodadas_restantes),sl/2-150/2,sa-100);
         g2d.drawString(label_ataque,sl/2 - 70,sa/2+150);
         g2d.setFont(null);
@@ -53,6 +55,7 @@ public class PNataque extends JPanel implements Observador, MouseListener, Actio
         DesenhaTabuleiro.Desenha( (int[][]) dados[ indice+1 ],g,40,100,"Jogador");
         indice = (indice +1)%2;
         DesenhaTabuleiro.Desenha( (int[][]) dados[ indice+1 ],g,sl - 490,100,"Oponente");
+        Regras.getCtrl().verificaGanhador();
         repaint();
     }
 
@@ -73,6 +76,8 @@ public class PNataque extends JPanel implements Observador, MouseListener, Actio
             Object[] dados = (Object[]) Regras.getCtrl().get(this);
             JOptionPane.showMessageDialog(null, String.format("Vencedor é o jogador %s",(String)dados[3]));
             setVisible(false);
+            Regras.getCtrl().NovoJogo();
+            PNjogo.getPnjogo().IdJogadoresPanel();
         }
         Object[] dados = (Object[]) Regras.getCtrl().get(this);
         jodadas_restantes = (int)dados[4];

@@ -14,10 +14,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 
-public class PNjogo extends JFrame implements ActionListener {
+public class PNjogo extends JFrame {
     Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
     private static PNjogo ctrl_PNjogo;
-    private Save s = new Save();
     
     
     public static PNjogo getPnjogo(){
@@ -37,11 +36,10 @@ public class PNjogo extends JFrame implements ActionListener {
         
 
         setVisible(true);
-        MenuBar ();
         
 
     }
-    private void IdJogadoresPanel (){
+    public void IdJogadoresPanel (){
         setTitle("Jogadores");
         getContentPane().add(new PNIndetJog());
     }
@@ -63,41 +61,10 @@ public class PNjogo extends JFrame implements ActionListener {
     public void terminarJogo(){
         repaint();
     }
-    
-    public void MenuBar() {
-        
-        JMenuBar menuBar = new JMenuBar();
-        setJMenuBar(menuBar);
-        JMenu SaveMenu = new JMenu("Menu");
-      
-        menuBar.add(SaveMenu);
-        
-        JMenuItem SaveAction = new JMenuItem("Save");
-       
-        SaveMenu.add(SaveAction);
-        this.setVisible(true);
-        SaveAction.addActionListener(this);
-
-}
 
     public static void main(String[] args){
         Regras.getCtrl();
         PNjogo.getPnjogo();
     }
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		
-		
-		try {
-			s.saveJogo();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		
-	}
-
-
 
 }
