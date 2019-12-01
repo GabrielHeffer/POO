@@ -1,9 +1,12 @@
 package gui;
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+
 import controler.Regras;
 
 
@@ -13,6 +16,7 @@ public class PNIndetJog extends JPanel implements ActionListener {
     JTextField TextFieldjog1 = new JTextField(30);
     JTextField TextFieldjog2 = new JTextField(30);
     JButton ok = new JButton("OK");
+
 
     public PNIndetJog(){
         Dimension textjog = jog1Label.getPreferredSize();
@@ -24,12 +28,19 @@ public class PNIndetJog extends JPanel implements ActionListener {
         TextFieldjog2.setBounds(120,110,200,textjog.height+20);
         ok.setBounds(200 - okBt.width/2 - 10,200,okBt.width,okBt.height);
         ok.addActionListener(this);
+        
+        
+        
+        
         this.add(jog1Label);
         this.add(TextFieldjog1);
         this.add(jog2Label);
         this.add(TextFieldjog2);
         this.add(ok);
+
     }
+
+    
 
     public void actionPerformed(ActionEvent e) {
         String nome1,nome2;

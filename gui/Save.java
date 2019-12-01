@@ -28,17 +28,53 @@ public class Save extends JFrame implements Observador {
 	
 	public void saveJogo() throws IOException {
 		Object[] dados = (Object[]) Regras.getCtrl().getTodosDados(this);
-		BufferedWriter outputWriter = null;
 		
-		BufferedWriter writer = new BufferedWriter(new FileWriter("testeAB"));
+		
+		BufferedWriter writer = new BufferedWriter(new FileWriter("InformacoesJogo.txt"));
 		writer.write((String) dados[0]);
 		writer.newLine();
 		writer.write((String) dados[1]);
 		writer.newLine();
-		TabJogadores =(Object[]) dados[5];
+		int[][] tab =(int[][]) dados[5];
+		int[][] tab2 =(int[][]) dados[6];
 
-		writer.write(Arrays.toString(TabJogadores));
-
+		for (int x = 0; x < 15; ++x) 
+	        for (int y = 0; y < 15; ++y)  
+	         writer.write(tab[x][y] + "");
+		writer.newLine();
+		
+		writer.write((String) dados[1]);
+		writer.newLine();
+		
+		for (int x = 0; x < 15; ++x) 
+	        for (int y = 0; y < 15; ++y) 
+	         writer.write(tab2[x][y]+ "");
+		writer.newLine();
+		
+		
+		AtaquesJogadores[0]=(int) dados[3];
+		AtaquesJogadores[1]=(int) dados[4];
+		
+		writer.write(AtaquesJogadores[0] + "");
+		writer.newLine();
+		writer.write(AtaquesJogadores[1] + "");
+		writer.newLine();
+	
+		NomeJogVez = (String) dados[2];
+		writer.write(NomeJogVez + "");
+		writer.newLine();
+		
+		jogadorVez =  (int) dados[7];
+		writer.write(jogadorVez + "");
+		writer.newLine();
+		
+		PecasJogadores[0] = (PecasJogador) dados[8];
+		
+		writer.write(PecasJogadores[0].pecasAfundadas() + "");
+		writer.newLine();
+        PecasJogadores[1] = (PecasJogador) dados[9];
+        writer.write(PecasJogadores[1] + "");
+        
 		writer.flush(); 
 		writer.close();
 	
