@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import controler.Regras;
 
+
 public class PNIndetJog extends JPanel implements ActionListener {
     JLabel jog1Label = new JLabel("Jogador 1 : ");
     JLabel jog2Label = new JLabel("Jogador 2 : ");

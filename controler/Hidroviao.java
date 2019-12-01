@@ -4,6 +4,7 @@ public class Hidroviao extends Peca {
 
     public Hidroviao(){
         valor = 5;
+        atingido = 3;
     }
 
     public Coordenadas[] Coordenadas_peca() {
@@ -25,11 +26,5 @@ public class Hidroviao extends Peca {
                     new Coordenadas(coluna+1,linha-2)};
         }
         return hidroaviao;
-    }
-
-
-    public void  abatido() {
-        if(atingido >= 3)
-            valor = -1;
     }
 }

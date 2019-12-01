@@ -9,7 +9,13 @@ public abstract class Peca {
 
     public abstract Coordenadas[] Coordenadas_peca();
 
-    public abstract void abatido();
+    public void Atingir(){
+        if(atingido>0){
+            atingido--;
+            if(atingido == 0)
+                this.valor = -10;
+        }
+    }
 
     public void setLocation(int x,int y){
         linha = y;
@@ -18,11 +24,6 @@ public abstract class Peca {
 
     public void rotacionar(){
         rotacao = (rotacao+1)%4;
-    }
-
-    void Atingido(){
-        atingido++;
-        abatido();
     }
 
     public Coordenadas getCoordenadaInicial(){

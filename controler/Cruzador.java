@@ -4,6 +4,7 @@ public class Cruzador extends Peca{
 
     public Cruzador(){
         valor = 3;
+        atingido = 4;
     }
 
     public Coordenadas[] Coordenadas_peca() {
@@ -25,11 +26,6 @@ public class Cruzador extends Peca{
                     new Coordenadas(coluna,linha-2),new Coordenadas(coluna,linha-3)};
         }
         return cruzador;
-    }
-
-    public void  abatido() {
-        if(atingido >= 4)
-            valor = -1;
     }
 
 }

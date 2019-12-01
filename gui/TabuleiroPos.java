@@ -20,7 +20,7 @@ public class TabuleiroPos extends JPanel implements MouseListener,KeyListener, O
     private int sa;
     private Peca[] pecas;
 
-    int[] pos = new int [2]; //pos na matriz tabuleiro
+    private int[] pos = new int [2]; //pos na matriz tabuleiro
 
 
     JButton TabPronto  = new JButton();
@@ -69,7 +69,7 @@ public class TabuleiroPos extends JPanel implements MouseListener,KeyListener, O
         this.add(TabPronto);
         TabPronto.setVisible(true);
        
-        DesenhaTabuleiro.Desenha( (int[][]) dados[ (int) dados[0] ],g,leftX,topY);
+        DesenhaTabuleiro.Desenha( (int[][]) dados[ (int) dados[0] + 1 ],g,leftX,topY,"Pos");
 
         for(Peca peca:pecas){
             peca.addMouseListener(peca);
@@ -82,8 +82,11 @@ public class TabuleiroPos extends JPanel implements MouseListener,KeyListener, O
     public void mudarFaseAtaque() {
         TabPronto.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent event){
-            	if(JogadorVez == 2 && Regras.getCtrl().faseAtaque())
-            	    PNjogo.getPnjogo();
+            	if(JogadorVez == 2 && Regras.getCtrl().faseAtaque()) {
+            	    setVisible(false);
+                    PNjogo.getPnjogo().PNAtaque();
+
+                }
             	else
                     Regras.getCtrl().MudaTabJogadorPos();
             }
@@ -157,9 +160,9 @@ public class TabuleiroPos extends JPanel implements MouseListener,KeyListener, O
     @Override
     public void notify(String mensagem,Observado o) {
         Object[] dados = (Object[]) Regras.getCtrl().get(this);
-        if(JogadorVez != (int)dados[0]) {
+        if(JogadorVez != (int)dados[0] + 1) {
             this.ReinicializarPecas();
-            JogadorVez = (int) dados[0];
+            JogadorVez = (int) dados[0] + 1;
             select.peca_selecionada = null;
         }
         else {

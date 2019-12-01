@@ -16,4 +16,10 @@ public class Coordenadas {
     public int getColuna() {
         return coluna;
     }
+
+    public boolean equal(Coordenadas cord){
+        if(this.linha == cord.linha && this.coluna == cord.coluna)
+            return true;
+        return false;
+    }
 }

@@ -4,6 +4,7 @@ public class Couracado extends Peca {
 
     public Couracado(){
         valor = 4;
+        atingido = 5;
     }
 
     public Coordenadas[] Coordenadas_peca() {
@@ -25,10 +26,6 @@ public class Couracado extends Peca {
                     new Coordenadas(coluna,linha-2),new Coordenadas(coluna,linha-3),new Coordenadas(coluna,linha-4)};
         }
         return couracado;
-    }
-    public void  abatido() {
-        if(atingido >= 5)
-            valor = -1;
     }
 
 }
