@@ -7,7 +7,7 @@ public class DesenhaTabuleiro {
 
     static int i,j;
 
-    public static void Desenha(int[][] Tabuleiro, Graphics g, int leftX, int topY,boolean  posicionamento) {
+    public static void Desenha(int[][] Tabuleiro, Graphics g, int leftX, int topY,String momento) {
         Rectangle2D rt;
         Graphics2D g2d = (Graphics2D) g;
         double larg = 30.0;
@@ -23,10 +23,13 @@ public class DesenhaTabuleiro {
 
 
                 rt = new Rectangle2D.Double(X, Y, larg, alt);
-                if(posicionamento)
+                if(momento.equals("Pos"))
                     DesenhaTabuleiro.CoresPosicionamento(g2d,Tabuleiro,rt);
-                else{
-                    DesenhaTabuleiro.CoresAtaque(g2d,Tabuleiro,rt);
+                else if(momento.equals("Oponente")){
+                    DesenhaTabuleiro.CoresAtaqueOponente(g2d,Tabuleiro,rt);
+                }
+                else if(momento.equals("Jogador")){
+                    DesenhaTabuleiro.CoresAtaqueJogador(g2d,Tabuleiro,rt);
                 }
 
                 //g2d.draw(rt);
@@ -42,7 +45,8 @@ public class DesenhaTabuleiro {
 
     private static void CoresPosicionamento(Graphics2D g2d,int[][] Tabuleiro,Rectangle2D rt){
         if (Tabuleiro[i][j] == 0) {
-            g2d.setColor(Color.black);
+            g2d.setPaint(Color.white);
+            g2d.fill(rt);
             g2d.draw(rt);
         }
 
@@ -90,32 +94,67 @@ public class DesenhaTabuleiro {
             }
 
         }
+        g2d.setColor(Color.black);
+        g2d.draw(rt);
     }
 
-    private static void CoresAtaque(Graphics2D g2d,int[][] Tabuleiro,Rectangle2D rt){
+    private static void CoresAtaqueOponente(Graphics2D g2d,int[][] Tabuleiro,Rectangle2D rt){
         if(Tabuleiro[i][j]== 10) {
-            g2d.setPaint(Color.blue);
-
+            g2d.setPaint(new Color(45,114,143));
+        //agua
             g2d.fill(rt);
             g2d.draw(rt);
         }
-
-        else if(Tabuleiro[i][j]== 15) {
-            g2d.setPaint(Color.lightGray);
-
-            g2d.fill(rt);
-            g2d.draw(rt);
-        }
-
+        //Acertou uma embarcação
         else if(Tabuleiro[i][j]== -1) {
-            g2d.setPaint(Color.green);
+            g2d.setPaint(new Color(207,255,176));
 
             g2d.fill(rt);
             g2d.draw(rt);
         }
-        else{
-            g2d.setColor(Color.black);
+        //Embarcação abatida
+        else if(Tabuleiro[i][j]== -10) {
+            g2d.setPaint(new Color(122,199,79));
+
+            g2d.fill(rt);
             g2d.draw(rt);
         }
+        else if(Tabuleiro[i][j] >= 0){
+            g2d.setPaint(Color.white);
+            g2d.fill(rt);
+            g2d.draw(rt);
+        }
+        g2d.setPaint(Color.black);
+        g2d.draw(rt);
+    }
+
+    private static void CoresAtaqueJogador(Graphics2D g2d,int[][] Tabuleiro,Rectangle2D rt){
+        if(Tabuleiro[i][j]== 10) {
+            g2d.setPaint(new Color(45,114,143));
+            //agua
+            g2d.fill(rt);
+            g2d.draw(rt);
+        }
+        //Acertou uma embarcação
+        else if(Tabuleiro[i][j]== -1) {
+            g2d.setPaint(new Color(152,151,136));
+
+            g2d.fill(rt);
+            g2d.draw(rt);
+        }
+        //Embarcação abatida
+        else if(Tabuleiro[i][j]== -10) {
+            g2d.setPaint(new Color(191,6,3));
+
+            g2d.fill(rt);
+            g2d.draw(rt);
+        }
+        else if(Tabuleiro[i][j] >= 0){
+            g2d.setPaint(Color.white);
+            g2d.fill(rt);
+            g2d.draw(rt);
+        }
+        g2d.setColor(Color.black);
+        g2d.draw(rt);
     }
 }

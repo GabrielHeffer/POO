@@ -4,6 +4,7 @@ public class Destroyers extends Peca {
 
     public Destroyers(){
         valor = 2;
+        atingido = 2;
     }
 
     public Coordenadas[] Coordenadas_peca() {
@@ -21,10 +22,6 @@ public class Destroyers extends Peca {
             destroyer = new Coordenadas[]{new Coordenadas(coluna,linha),new Coordenadas(coluna,linha-1)};
         }
         return destroyer;
-    }
-    public void  abatido() {
-        if(atingido >= 2)
-            valor = -1;
     }
 
 

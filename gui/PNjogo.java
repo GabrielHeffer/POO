@@ -41,10 +41,15 @@ public class PNjogo extends JFrame  {
         getContentPane().add(new PNataque());
     }
 
+    public void terminarJogo(){
+        repaint();
+    }
+
     public static void main(String[] args){
         Regras.getCtrl();
         PNjogo.getPnjogo();
     }
+
 
 
 }
