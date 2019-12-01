@@ -1,38 +1,52 @@
 package gui;
 	
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.ButtonGroup;
-import javax.swing.JCheckBoxMenuItem;
+import controler.PecasJogador;
+import controler.Regras;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
+
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JRadioButtonMenuItem;
- 
 
-public class Save extends JFrame {
-     
-    public Save() {
-         
-        setTitle("Menu Example");
-        setSize(150, 150);
-         
-        // Cria uma barra de menu para o JFrame
-        JMenuBar menuBar = new JMenuBar();
-         
-        // Adiciona a barra de menu ao  frame
-        setJMenuBar(menuBar);
-         
-        // Define e adiciona dois menus drop down na barra de menus
-        JMenu SaveMenu = new JMenu("Menu");
-      
-        menuBar.add(SaveMenu);
-        // Cria e adiciona um item simples para o menu
-        JMenuItem SaveAction = new JMenuItem("Save");
-       
-        SaveMenu.add(SaveAction);
-        this.setVisible(true);
+import Observer.Observado;
+import Observer.Observador;
 
-}
+
+public class Save extends JFrame implements Observador {
+	
+	private String NomeJogador1;
+	private String NomeJogador2;
+    private String NomeJogVez;
+    private int[] AtaquesJogadores = new int[2];
+    private Object[] TabJogadores = new Object[2];
+    private  int jogadorVez = 0;
+    private PecasJogador[] PecasJogadores = new PecasJogador[2];
+    private String NomeGanhador = null;
+	
+	
+	public void saveJogo() throws IOException {
+		Object[] dados = (Object[]) Regras.getCtrl().getTodosDados(this);
+		BufferedWriter outputWriter = null;
+		
+		BufferedWriter writer = new BufferedWriter(new FileWriter("testeAB"));
+		writer.write((String) dados[0]);
+		writer.newLine();
+		writer.write((String) dados[1]);
+		writer.newLine();
+		TabJogadores =(Object[]) dados[5];
+
+		writer.write(Arrays.toString(TabJogadores));
+
+		writer.flush(); 
+		writer.close();
+	
+	}
+
+	@Override
+	public void notify(String mensagem, Observado o) {
+		// TODO Auto-generated method stub
+		
+	}
 }

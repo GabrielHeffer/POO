@@ -37,6 +37,8 @@ public class TabuleiroPos extends JPanel implements MouseListener,KeyListener, O
                 new Peca(30,topY+210,"D",0,2),new Peca(120,topY+210,"D",1,2),new Peca(210,topY+210,"D",2,2),
                 new Peca(30,topY+300,"Cr",0,3),new Peca(180,topY+300,"Cr",1,3),
                 new Peca(30,topY+390,"Co",0,4)};
+        
+        
     }
 
 

@@ -38,6 +38,27 @@ public class Regras implements Observado {
         PecasJogadores[1] = new PecasJogador();
         NomesJogadores = new String[2];
     }
+    
+    public Object getTodosDados(Observador o) {
+        Object dados[]=new Object[11];
+
+        dados[0] = NomesJogadores[0];
+        dados[1] = NomesJogadores[1];
+        dados[2] = NomeJogVez;
+        dados[3] = AtaquesJogadores[0];
+        dados[4] = AtaquesJogadores[1];
+       
+        dados[5] = TabJogadores[0];
+        dados[6] = TabJogadores[1];
+        dados[7] = jogadorVez;
+        
+        dados[8] = PecasJogadores[0];
+        dados[9] = PecasJogadores[1];
+        dados[10] = NomeGanhador;
+        
+
+        return dados;
+    }
 
     public boolean SetNomesJogadores(String nomeJog1,String nomeJog2){
         if(nomeJog1.equals("") || nomeJog2.equals(""))
@@ -59,14 +80,16 @@ public class Regras implements Observado {
     public Object get(Observador o) {
         Object dados[]=new Object[6];
 
-        dados[0]= jogadorVez;
-        dados[1]=TabJogadores[0];
-        dados[2]=TabJogadores[1];
-        dados[3]=NomeJogVez;
+        dados[0] = jogadorVez;
+        dados[1] = TabJogadores[0];
+        dados[2] = TabJogadores[1];
+        dados[3] = NomeJogVez;
         dados[4] = AtaquesJogadores[jogadorVez];
 
         return dados;
     }
+    
+
 
     private void ApagarLixo(int[][] Tab){
         int linha,coluna;

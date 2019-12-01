@@ -1,16 +1,25 @@
 package gui;
 import controler.Regras;
 
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-public class PNjogo extends JFrame  {
+
+public class PNjogo extends JFrame implements ActionListener {
     Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
     private static PNjogo ctrl_PNjogo;
+    private Save s = new Save();
+    
+    
     public static PNjogo getPnjogo(){
         if(ctrl_PNjogo == null)
             ctrl_PNjogo = new PNjogo();
@@ -21,13 +30,14 @@ public class PNjogo extends JFrame  {
         int sa=screenSize.height;
         int x=sl/2-400/2;
         int y=sa/2-300/2;
+        
         setBounds(x,y,400,300);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         IdJogadoresPanel();
         
 
         setVisible(true);
-        Save ();
+        MenuBar ();
         
 
     }
@@ -54,26 +64,19 @@ public class PNjogo extends JFrame  {
         repaint();
     }
     
-    public void Save() {
+    public void MenuBar() {
         
-        setTitle("Menu Example");
-
-         
-        // Cria uma barra de menu para o JFrame
         JMenuBar menuBar = new JMenuBar();
-         
-        // Adiciona a barra de menu ao  frame
         setJMenuBar(menuBar);
-         
-        // Define e adiciona dois menus drop down na barra de menus
         JMenu SaveMenu = new JMenu("Menu");
       
         menuBar.add(SaveMenu);
-        // Cria e adiciona um item simples para o menu
+        
         JMenuItem SaveAction = new JMenuItem("Save");
        
         SaveMenu.add(SaveAction);
         this.setVisible(true);
+        SaveAction.addActionListener(this);
 
 }
 
@@ -81,6 +84,19 @@ public class PNjogo extends JFrame  {
         Regras.getCtrl();
         PNjogo.getPnjogo();
     }
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		
+		try {
+			s.saveJogo();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+	}
 
 
 
