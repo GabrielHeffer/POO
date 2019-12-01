@@ -3,6 +3,10 @@ import controler.Regras;
 
 import javax.swing.*;
 import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 public class PNjogo extends JFrame  {
     Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
@@ -20,7 +24,11 @@ public class PNjogo extends JFrame  {
         setBounds(x,y,400,300);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         IdJogadoresPanel();
+        
+
         setVisible(true);
+        Save ();
+        
 
     }
     private void IdJogadoresPanel (){
@@ -34,6 +42,7 @@ public class PNjogo extends JFrame  {
         setTitle("Posicionamento as Peças");
         setBounds(0,0,sl,sa);
         getContentPane().add(new TabuleiroPos());
+        
     }
 
     public void PNAtaque(){
@@ -44,6 +53,29 @@ public class PNjogo extends JFrame  {
     public void terminarJogo(){
         repaint();
     }
+    
+    public void Save() {
+        
+        setTitle("Menu Example");
+
+         
+        // Cria uma barra de menu para o JFrame
+        JMenuBar menuBar = new JMenuBar();
+         
+        // Adiciona a barra de menu ao  frame
+        setJMenuBar(menuBar);
+         
+        // Define e adiciona dois menus drop down na barra de menus
+        JMenu SaveMenu = new JMenu("Menu");
+      
+        menuBar.add(SaveMenu);
+        // Cria e adiciona um item simples para o menu
+        JMenuItem SaveAction = new JMenuItem("Save");
+       
+        SaveMenu.add(SaveAction);
+        this.setVisible(true);
+
+}
 
     public static void main(String[] args){
         Regras.getCtrl();
