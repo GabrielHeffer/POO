@@ -29,8 +29,7 @@ public class PNjogo extends JFrame {
         int sa=screenSize.height;
         int x=sl/2-400/2;
         int y=sa/2-300/2;
-        
-        setBounds(x,y,400,300);
+
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         IdJogadoresPanel();
         
@@ -40,6 +39,11 @@ public class PNjogo extends JFrame {
 
     }
     public void IdJogadoresPanel (){
+        int sl=screenSize.width;
+        int sa=screenSize.height;
+        int x=sl/2-400/2;
+        int y=sa/2-300/2;
+        setBounds(x,y,400,300);
         setTitle("Jogadores");
         getContentPane().add(new PNIndetJog());
     }
@@ -54,6 +58,10 @@ public class PNjogo extends JFrame {
     }
 
     public void PNAtaque(){
+        int sl=screenSize.width;
+        int sa=screenSize.height;
+        setTitle("Posicionamento as Peças");
+        setBounds(0,0,sl,sa);
         repaint();
         getContentPane().add(new PNataque());
     }

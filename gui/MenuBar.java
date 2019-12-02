@@ -19,10 +19,11 @@ public class MenuBar extends JMenuBar implements ActionListener{
 	private JMenu LoadMenu = new JMenu("Menu");
 	private JMenuItem LoadAction = new JMenuItem("Carregar Jogo");
 	private String opcao;
+	private JPanel panel;
 
-	public MenuBar(String opcao){
+	public MenuBar(String opcao, JPanel panel){
 		int sl;
-		int sa;
+		this.panel = panel;
 		Toolkit tk=Toolkit.getDefaultToolkit();
 		Dimension screenSize=tk.getScreenSize();
 		sl=screenSize.width;
@@ -45,9 +46,9 @@ public class MenuBar extends JMenuBar implements ActionListener{
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (opcao == "Save") {
-			JFileChooser chooser = new JFileChooser();
-			String fileName;
+		JFileChooser chooser = new JFileChooser();
+		String fileName;
+		if (opcao.equals("Save") ) {
 			chooser.setCurrentDirectory(new File("/home/me/Documents"));
 			int retrival = chooser.showSaveDialog(null);
 			if (retrival == JFileChooser.APPROVE_OPTION) {
@@ -59,6 +60,20 @@ public class MenuBar extends JMenuBar implements ActionListener{
 				}
 			}
 		}
-	}
+		else if(opcao.equals("Load") ) {
+			chooser.setCurrentDirectory(new File("/home/me/Documents"));
+			int retrival = chooser.showSaveDialog(null);
+			if (retrival == JFileChooser.APPROVE_OPTION) {
+				fileName = chooser.getSelectedFile() + "";
+				try {
+					Regras.getCtrl().LoadJogo(fileName);
+					panel.setVisible(false);
+					PNjogo.getPnjogo().PNAtaque();
 
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
+	}
 }

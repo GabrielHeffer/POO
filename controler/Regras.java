@@ -3,9 +3,7 @@ import Observer.*;
 import gui.PNjogo;
 
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,37 +89,50 @@ public class Regras implements Observado {
 
         return dados;
     }
-    
 
-
-    private void ApagarLixo(int[][] Tab){
+    public void ApagarLixo(){
         int linha,coluna;
-        for(linha = 0;linha < Tab.length;linha++)
-            for(coluna = 0;coluna < Tab[linha].length;coluna++)
-                if(Tab[linha][coluna] == -10)
+        int[][] Tab = (int[][])TabJogadores[jogadorVez];
+        for(linha = 0;linha < Tab.length;linha++) {
+            for (coluna = 0; coluna < Tab[linha].length; coluna++)
+                if (Tab[linha][coluna] == -10)
                     Tab[linha][coluna] = 0;
+        }
+        this.notificar("");
     }
 
-    private int SomaRegras(int[][] tab,Coordenadas[] cords){
-        int soma =0;
-        for(Coordenadas cord: cords) {
-            try{
-                soma += tab[cord.getLinha()][cord.getColuna()] ;
-            }catch (Exception e){ return -1; }
-            try {
-                soma += tab[cord.getLinha() - 1][cord.getColuna() - 1] +
-                        tab[cord.getLinha() - 1][cord.getColuna()] +
-                        tab[cord.getLinha() - 1][cord.getColuna() + 1];
-            } catch (Exception e) { soma += 0; }
-            try {
-                soma += tab[cord.getLinha()][cord.getColuna() - 1] +
-                        tab[cord.getLinha()][cord.getColuna() + 1];
-            } catch (Exception e) { soma += 0;}
-            try {
-                soma += tab[cord.getLinha() + 1][cord.getColuna() - 1] +
-                        tab[cord.getLinha() + 1][cord.getColuna()] +
-                        tab[cord.getLinha() + 1][cord.getColuna() + 1];
-            } catch (Exception e) { soma += 0;}
+    private int somaMatriz(int[][] tab,int limite_sup,int limite_inf,int limite_esq,int limite_dir){
+        int soma = 0;
+        for(int i = limite_sup;i <= limite_inf; i++) {
+            for (int j = limite_esq; j <= limite_dir; j++)
+                soma += tab[i][j];
+        }
+        return soma;
+    }
+    private int SomaRegras(int[][] tab,Coordenadas[] cords) {
+        int limite_sup, limite_inf, limite_esq, limite_dir,soma=0;
+        for (Coordenadas cord : cords) {
+            if(cord.getLinha() < 0 || cord.getLinha() > 14) {
+                soma = 10;
+            }
+            else if(cord.getColuna() < 0 || cord.getColuna() > 14) {
+                soma = 10;
+            }
+            else {
+                limite_esq = cord.getColuna() - 1;
+                limite_dir = cord.getColuna() + 1;
+                limite_sup = cord.getLinha() - 1;
+                limite_inf = cord.getLinha() + 1;
+                if (limite_esq < 0)
+                    limite_esq = 0;
+                if (limite_dir > 15)
+                    limite_dir = 15;
+                if (limite_sup < 0)
+                    limite_sup = 0;
+                if (limite_inf > 15)
+                    limite_inf = 15;
+                soma += somaMatriz(tab, limite_sup, limite_inf, limite_esq, limite_dir);
+            }
         }
         return soma;
     }
@@ -141,7 +152,8 @@ public class Regras implements Observado {
         if(peca != null)
             valor = peca.getValor();
         for(Coordenadas cord: pos){
-            if(tab[cord.getLinha()][cord.getColuna()] == 0)
+            if(cord.getColuna() >= 0 && cord.getColuna() < 15 && cord.getLinha() >= 0 && cord.getLinha() < 15 &&
+                    tab[cord.getLinha()][cord.getColuna()] == 0)
                 tab[cord.getLinha()][cord.getColuna()] = valor;
         }
     }
@@ -149,7 +161,7 @@ public class Regras implements Observado {
     public void PosicionarPeca(String peca, int Idpeca,Coordenadas cord){
         Peca selecionada = null;
         Coordenadas[] pos;
-        this.ApagarLixo( (int[][]) TabJogadores[jogadorVez] );
+        this.ApagarLixo();
         selecionada = (Peca) PecasJogadores[jogadorVez].getPeca(peca,Idpeca);
         selecionada.setLocation(cord.getColuna(),cord.getLinha());
         pos = selecionada.Coordenadas_peca();
@@ -163,10 +175,11 @@ public class Regras implements Observado {
         }
     }
 
-    private void ApagarPeca(Coordenadas[] cords){
+    private void ApagarPeca(Coordenadas[] cords,int valor){
         int[][] tab = (int[][]) TabJogadores[jogadorVez];
         for (Coordenadas cord : cords) {
-            tab[cord.getLinha()][cord.getColuna()] = 0;
+            if(tab[cord.getLinha()][cord.getColuna()] == valor)
+                tab[cord.getLinha()][cord.getColuna()] = 0;
         }
     }
 
@@ -174,7 +187,7 @@ public class Regras implements Observado {
         Peca selecionada = null;
         Coordenadas[] pos;
         selecionada = PecasJogadores[jogadorVez].getPeca(peca,Idpeca);;
-        this.ApagarPeca(selecionada.Coordenadas_peca());
+        this.ApagarPeca(selecionada.Coordenadas_peca(),selecionada.getValor());
         selecionada.setLocation(0,0);
         selecionada.posicionada = false;
         this.notificar("");
@@ -186,7 +199,7 @@ public class Regras implements Observado {
         selecionada = PecasJogadores[jogadorVez].getPeca(peca,Idpeca);
 
         pos = selecionada.Coordenadas_peca();
-        this.ApagarPeca(pos);
+        this.ApagarPeca(pos,selecionada.getValor());
         selecionada.rotacionar();
         pos = selecionada.Coordenadas_peca();
         if( !this.VerificarRegraPos(pos) ){
@@ -209,8 +222,8 @@ public class Regras implements Observado {
 	public boolean faseAtaque(){
         if(PecasJogadores[0].verificaPos() && PecasJogadores[1].verificaPos()){
             AtaquesJogadores = new int[2];
-            AtaquesJogadores[0] = 3;
-            AtaquesJogadores[1] = 3;
+            AtaquesJogadores[0] = 50;
+            AtaquesJogadores[1] = 50;
             jogadorVez = 0;
             NomeJogVez = NomesJogadores[0];
             return true;
@@ -261,6 +274,8 @@ public class Regras implements Observado {
                     }
                 }
                 this.notificar(embarc_atingida);
+                if(this.verificaGanhador())
+                    this.notificar("Vencedor");
             }
         }
     }
@@ -280,11 +295,12 @@ public class Regras implements Observado {
             tab_oponente[cord.getLinha()][cord.getColuna()] = -10;
     }
 
-    public void verificaGanhador(){
-        if(PecasJogadores[jogadorVez].pecasAfundadas())
+    private boolean verificaGanhador(){
+        if(PecasJogadores[ (jogadorVez + 1)%2 ].pecasAfundadas())
             NomeGanhador = NomeJogVez;
         if(NomeGanhador != null)
-            this.notificar("Vencedor");
+            return true;
+        return false;
     }
 
     public void NovoJogo(){
@@ -305,6 +321,7 @@ public class Regras implements Observado {
 
     public void saveJogo(String nameFile) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(nameFile));
+        String pecas;
         writer.write((String) NomesJogadores[0]);
         writer.newLine();
 
@@ -341,19 +358,88 @@ public class Regras implements Observado {
         writer.write(jogadorVez + "");
         writer.newLine();
 
+        pecas = PecasJogadores[0].pecas2str();
+        writer.write(pecas + "");
 
-        writer.write(PecasJogadores[0].pecasAfundadas() + "");
-        writer.newLine();
-
-
-        writer.write(PecasJogadores[1] + "");
-        writer.newLine();
+        pecas = PecasJogadores[1].pecas2str();
+        writer.write(pecas + "");
 
         writer.write(NomeGanhador + "");
 
         writer.flush();
         writer.close();
 
+    }
+
+    private void CarregarPecas(PecasJogador pc,BufferedReader leitor) throws IOException{
+        int H_index = -1,S_index = -1,D_index = -1,Co_index = -1,Cr_index = -1;
+        Peca p = null;
+        for(int i=0;i<15;i++){
+            String peca = leitor.readLine();
+            if(peca.equals("H")) {
+                H_index++;
+                p = pc.getPeca(peca,H_index);
+            }
+            else if(peca.equals("D")) {
+                D_index++;
+                p =  pc.getPeca(peca,D_index);
+            }
+            else if(peca.equals("S")) {
+                S_index++;
+                p =  pc.getPeca(peca,S_index);
+            }
+            else if(peca.equals("Cr")) {
+                Cr_index++;
+                p =  pc.getPeca(peca,Cr_index);
+            }
+            else if(peca.equals("Co")) {
+                Co_index++;
+                p =  pc.getPeca(peca,Co_index);
+            }
+            int rotacao = Integer.parseInt(leitor.readLine());
+            int linha = Integer.parseInt(leitor.readLine());
+            int coluna = Integer.parseInt(leitor.readLine());
+            Coordenadas cord = new Coordenadas(coluna, linha);
+            int atingido = Integer.parseInt(leitor.readLine());
+            pc.AtualizaPeca(p,rotacao,cord,atingido);
+        }
+    }
+
+    public void LoadJogo(String nameFile) throws IOException{
+        int[][] tab;
+        String tabuleiro;
+        int index = 0;
+
+        FileReader arq = new FileReader(nameFile);
+        BufferedReader leitor = new BufferedReader(arq);
+        NomesJogadores[0] = leitor.readLine();
+        tab = (int[][])TabJogadores[0];
+        tabuleiro = leitor.readLine();
+        for (int x = 0; x < 15; ++x) {
+            for (int y = 0; y < 15; ++y) {
+                int valor = tabuleiro.charAt(index) - '0';
+                tab[x][y] = valor;
+                index++;
+            }
+        }
+        NomesJogadores[1] = leitor.readLine();
+        tab = (int[][])TabJogadores[1];
+        tabuleiro = leitor.readLine();
+        index = 0;
+        for (int x = 0; x < 15; ++x) {
+            for (int y = 0; y < 15; ++y) {
+                int valor = tabuleiro.charAt(index);
+                tab[x][y] = valor - '0';
+                index++;
+            }
+        }
+        AtaquesJogadores[0] = Integer.parseInt(leitor.readLine());
+        AtaquesJogadores[1] = Integer.parseInt(leitor.readLine());
+        NomeJogVez = leitor.readLine();
+        jogadorVez = Integer.parseInt(leitor.readLine());
+        this.CarregarPecas(PecasJogadores[0],leitor);
+        this.CarregarPecas(PecasJogadores[1],leitor);
+        return;
     }
 
     public void notificar(String mensagem) {

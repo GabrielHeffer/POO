@@ -15,12 +15,13 @@ public class PNIndetJog extends JPanel implements ActionListener {
     private JLabel jog2Label = new JLabel("Jogador 2 : ");
     private JTextField TextFieldjog1 = new JTextField(30);
     private JTextField TextFieldjog2 = new JTextField(30);
-    private JButton ok = new JButton("OK");
-    private MenuBar menu_load = new MenuBar("Load");
+    private JButton ok = new JButton("Novo Jogo");
+    private MenuBar menu_load;
 
     public PNIndetJog(){
         Dimension textjog = jog1Label.getPreferredSize();
         Dimension okBt = ok.getPreferredSize();
+        menu_load = new MenuBar("Load",this);
         this.setLayout(null);
         add(menu_load);
         jog1Label.setBounds(40,50,textjog.width,textjog.height);

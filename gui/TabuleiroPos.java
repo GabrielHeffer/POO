@@ -183,7 +183,7 @@ public class TabuleiroPos extends JPanel implements MouseListener,KeyListener, O
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE && select.peca_selecionada != null){
             if(!select.peca_selecionada.is_posicionada()){
-                Regras.getCtrl().RetirarPeca(select.peca_selecionada.getPeca(), select.peca_selecionada.getId());
+                Regras.getCtrl().ApagarLixo();
             }
             select.peca_selecionada = null;
         }

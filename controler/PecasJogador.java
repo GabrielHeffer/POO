@@ -96,4 +96,32 @@ public class PecasJogador {
         }
         return true;
     }
+
+    public String pecas2str(){
+        int cont = 0;
+        String resultado = "";
+        for(Peca p: hidroavioes)
+            resultado += String.format("H\n%d\n%d\n%d\n%d\n",p.rotacao,p.linha,p.coluna,p.atingido);
+        for(Peca p: destroyers)
+            resultado += String.format("D\n%d\n%d\n%d\n%d\n",p.rotacao,p.linha,p.coluna,p.atingido);
+        for(Peca p: submarinos)
+            resultado += String.format("S\n%d\n%d\n%d\n%d\n",p.rotacao,p.linha,p.coluna,p.atingido);
+        for(Peca p: cruzadores)
+            resultado += String.format("Cr\n%d\n%d\n%d\n%d\n",p.rotacao,p.linha,p.coluna,p.atingido);
+        for(Peca p: couracado)
+            resultado += String.format("Co\n%d\n%d\n%d\n%d\n",p.rotacao,p.linha,p.coluna,p.atingido);
+        return resultado;
+    }
+
+    public void AtualizaPeca(Peca p,int rotacao,Coordenadas cord,int atingido){
+        p.rotacao = rotacao;
+        p.linha = cord.getLinha();
+        p.coluna = cord.getColuna();
+        p.atingido = atingido;
+        p.posicionada = true;
+    }
+
+
+
+
 }
