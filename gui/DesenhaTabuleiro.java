@@ -86,7 +86,7 @@ public class DesenhaTabuleiro {
                 g2d.fill(rt);
                 g2d.draw(rt);
             }
-            else if (Tabuleiro[i][j]== -10){
+            else if (Tabuleiro[i][j]== 9){
                 g2d.setPaint(Color.red);
 
                 g2d.fill(rt);
@@ -99,27 +99,27 @@ public class DesenhaTabuleiro {
     }
 
     private static void CoresAtaqueOponente(Graphics2D g2d,int[][] Tabuleiro,Rectangle2D rt){
-        if(Tabuleiro[i][j]== 10) {
+        if(Tabuleiro[i][j]== 6) {
             g2d.setPaint(new Color(45,114,143));
         //agua
             g2d.fill(rt);
             g2d.draw(rt);
         }
         //Acertou uma embarcação
-        else if(Tabuleiro[i][j]== -1) {
+        else if(Tabuleiro[i][j]== 7) {
             g2d.setPaint(new Color(207,255,176));
 
             g2d.fill(rt);
             g2d.draw(rt);
         }
         //Embarcação abatida
-        else if(Tabuleiro[i][j]== -10) {
+        else if(Tabuleiro[i][j]== 8) {
             g2d.setPaint(new Color(122,199,79));
 
             g2d.fill(rt);
             g2d.draw(rt);
         }
-        else if(Tabuleiro[i][j] >= 0){
+        else {
             g2d.setPaint(Color.white);
             g2d.fill(rt);
             g2d.draw(rt);
@@ -129,21 +129,21 @@ public class DesenhaTabuleiro {
     }
 
     private static void CoresAtaqueJogador(Graphics2D g2d,int[][] Tabuleiro,Rectangle2D rt){
-        if(Tabuleiro[i][j]== 10) {
+        if(Tabuleiro[i][j]== 6) {
             g2d.setPaint(new Color(45,114,143));
             //agua
             g2d.fill(rt);
             g2d.draw(rt);
         }
         //Acertou uma embarcação
-        else if(Tabuleiro[i][j]== -1) {
+        else if(Tabuleiro[i][j]== 7) {
             g2d.setPaint(new Color(152,151,136));
 
             g2d.fill(rt);
             g2d.draw(rt);
         }
         //Embarcação abatida
-        else if(Tabuleiro[i][j]== -10) {
+        else if(Tabuleiro[i][j]== 8) {
             g2d.setPaint(new Color(191,6,3));
 
             g2d.fill(rt);

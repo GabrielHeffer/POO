@@ -95,7 +95,7 @@ public class Regras implements Observado {
         int[][] Tab = (int[][])TabJogadores[jogadorVez];
         for(linha = 0;linha < Tab.length;linha++) {
             for (coluna = 0; coluna < Tab[linha].length; coluna++)
-                if (Tab[linha][coluna] == -10)
+                if (Tab[linha][coluna] == 9)
                     Tab[linha][coluna] = 0;
         }
         this.notificar("");
@@ -125,12 +125,12 @@ public class Regras implements Observado {
                 limite_inf = cord.getLinha() + 1;
                 if (limite_esq < 0)
                     limite_esq = 0;
-                if (limite_dir > 15)
-                    limite_dir = 15;
+                if (limite_dir > 14)
+                    limite_dir = 14;
                 if (limite_sup < 0)
                     limite_sup = 0;
-                if (limite_inf > 15)
-                    limite_inf = 15;
+                if (limite_inf > 14)
+                    limite_inf = 14;
                 soma += somaMatriz(tab, limite_sup, limite_inf, limite_esq, limite_dir);
             }
         }
@@ -170,7 +170,7 @@ public class Regras implements Observado {
             selecionada.posicionada = true;
             this.notificar("POS");
         }else{
-            this.ColocarPeca(pos, null,-10);
+            this.ColocarPeca(pos, null,9);
             this.notificar("NPOS");
         }
     }
@@ -222,8 +222,8 @@ public class Regras implements Observado {
 	public boolean faseAtaque(){
         if(PecasJogadores[0].verificaPos() && PecasJogadores[1].verificaPos()){
             AtaquesJogadores = new int[2];
-            AtaquesJogadores[0] = 50;
-            AtaquesJogadores[1] = 50;
+            AtaquesJogadores[0] = 3;
+            AtaquesJogadores[1] = 3;
             jogadorVez = 0;
             NomeJogVez = NomesJogadores[0];
             return true;
@@ -235,9 +235,9 @@ public class Regras implements Observado {
         int valor_peca = tab[cord.getLinha()][cord.getColuna()];
         if(tab[cord.getLinha()][cord.getColuna()] >= 0){
             if( valor_peca == 0)
-                tab[cord.getLinha()][cord.getColuna()] = 10;
+                tab[cord.getLinha()][cord.getColuna()] = 6;
             else
-                tab[cord.getLinha()][cord.getColuna()] = -1;
+                tab[cord.getLinha()][cord.getColuna()] = 7;
             return valor_peca;
         }
         return -1;
@@ -292,7 +292,7 @@ public class Regras implements Observado {
     public void afundarEmbarcacao(Peca p){
         int[][] tab_oponente = (int[][])TabJogadores[ (jogadorVez+1)%2 ];
         for(Coordenadas cord: p.Coordenadas_peca())
-            tab_oponente[cord.getLinha()][cord.getColuna()] = -10;
+            tab_oponente[cord.getLinha()][cord.getColuna()] = 8;
     }
 
     private boolean verificaGanhador(){
