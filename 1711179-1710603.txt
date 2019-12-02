@@ -1,0 +1,24 @@
+
+INF1636 - Relatório de Acompanhamento ultima interação
+
+
+Batalha Naval
+
+----------------------------------------------------------------------------------
+
+1. Participantes 
+	
+	-Jéssica Pereira Cesario - 1711179
+	-Gabriel de Souza Heffer Matheus - 1710603
+
+----------------------------------------------------------------------------------
+
+2. Tarefas Planejadas
+
+	-Alternância de atacante para atacado e definição do vencedor. CONCLUÍDO
+	-Salvamento, em um arquivo, de um jogo em andamento; CONCLUÍDO
+	-Recarga de um jogo salvo anteriormente. CONCLUÍDO
+
+----------------------------------------------------------------------------------
+
+3. Trabalho finalizado como esperado.
